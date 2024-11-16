@@ -1,0 +1,22 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1%;
+}
+
+.description {
+  padding: 5%;
+  width: 50%;
+  margin: 0 auto;
+}
+
+.space-out {
+  margin: 3% 0;
+}
