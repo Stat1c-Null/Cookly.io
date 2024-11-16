@@ -1,51 +1,71 @@
-import cv2, deeplake
-import numpy as np
-import pathlib
-import textwrap
+import base64
 import os
 
-import google.generativeai as genai
-
-from IPython.display import display
-from IPython.display import Markdown
+import vertexai
+from vertexai.generative_models import GenerativeModel, Part, SafetySetting
 
 
-GEMINI_KEY = os.environ['API_KEY']
+def generate(pathing):
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "useful-flame-441821-h0-5e6960a95210.json"
 
-def to_markdown(text):
-  text = text.replace('•', '  *')
-  return Markdown(textwrap.indent(text, '> ', predicate=lambda _: True))
+    vertexai.init(project="useful-flame-441821-h0", location="us-central1")
+    model = GenerativeModel(
+        "gemini-1.5-flash-002",
+        system_instruction=[textsi_1]
+    )
+    #Takes in the image pathing and where it was located
+    with open(pathing, "rb") as img_file:
+        image_data = img_file.read()
+    #We encode the image
+    encoded_image = base64.b64encode(image_data)
 
-genai.configure(api_key=GEMINI_KEY)
+    image1 = Part.from_data(
+        mime_type="image/png",
+        #We Decode the image
+        data=base64.b64decode(encoded_image),
+    )
 
-model = genai.GenerativeModel('gemini-1.5-flash')
+    #Needs fine tuning but it should be good after this
+    responses = model.generate_content(
+        [image1, """What is in this fridge?"""],
+        generation_config=generation_config,
+        safety_settings=safety_settings,
+        stream=True,
+    )
 
-#https://www.kaggle.com/code/sainikhileshreddy/how-to-use-the-dataset
-#Trained model to detect food
-"""try:
-  #food_model = deeplake.load('hub://sainikhileshreddy/food-recognition-2022-test')
-  food_model = hub.load('/kaggle/input/food-recognition-2022/hub/val')
-  print("Succesfully loaded Dataset")
-except Exception as e:
-  print(f"Dataset couldnt be loaded {e}")
-  exit()"""
+    for response in responses:
+        print(response.text, end="")
 
-#Load image
-img_path = 'images/potatoes.png'
-img = cv2.imread(img_path)
+#This could be better but its just what the AI should be doing with the information like context.
+textsi_1 = """We only want to find out what ingredients this person has by analyzing what is inside their fridge, pantry, or etc. Just food ingredients and such."""
 
-if img is None:
-  print(f"Could not read image path {img_path}")
-  exit()
+generation_config = {
+    "max_output_tokens": 8192,
+    "temperature": 1,
+    "top_p": 0.95,
+}
 
-resized_img = cv2.resize(img, (224, 224))
-resized_img = resized_img / 255.0
-resized_img = np.expand_dims(resized_img, axis=0)
+safety_settings = [
+    SafetySetting(
+        category=SafetySetting.HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+        threshold=SafetySetting.HarmBlockThreshold.OFF
+    ),
+    SafetySetting(
+        category=SafetySetting.HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+        threshold=SafetySetting.HarmBlockThreshold.OFF
+    ),
+    SafetySetting(
+        category=SafetySetting.HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+        threshold=SafetySetting.HarmBlockThreshold.OFF
+    ),
+    SafetySetting(
+        category=SafetySetting.HarmCategory.HARM_CATEGORY_HARASSMENT,
+        threshold=SafetySetting.HarmBlockThreshold.OFF
+    ),
+]
 
-response = model.generate_content(["Tell me what food is in the picture", resized_img], stream=True)
+#The image path
+image_path = "images/foodinfridge2.png"
 
-response.resolve()
-
-cv2.imshow('Food Image', img)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+#The generated image
+generate(image_path)
