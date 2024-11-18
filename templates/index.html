@@ -12,15 +12,48 @@
     <h2>Cookly.io</h1>
   </div>
   <div class="description">
-    <h3 class="space-out">Macros Form</h3>
+    <h3 class="space-out">Diet Details Form</h3>
+
+    <p class="space-out">Upload photo of your ingridients and fill out the form. Cookly.io will analyze all of the ingridients and generate you list of meals based on your macros. Leave fields blank if limit is not required</p>
+
+    <!--Calories input-->
     <label for="calorieInput" class="form-label space-out">Calorie Limit</label>
-    <input type="text" id="calorieInput" class="form-control" aria-describedby="passwordHelpBlock">
-    <div id="passwordHelpBlock" class="form-text">
-      Enter the limit of calories that you want to have in your dinner, so cookly.io can give you meals and measurements that fit your diet
+    <input type="text" id="calorieInput" class="form-control" aria-describedby="">
+    <div id="help" class="form-text">
+      Enter the limit of calories that you want to have
     </div>
-    <p class="space-out">Upload photo of your ingridients and fill out the form. Cookly.io will analyze all of the ingridients and generate you list of meals based on your macros.</p>
-    <div class="mb-3">
-      <input class="form-control space-out" type="file" id="formFile">
+
+    <!--Protein Input-->
+    <label for="proteinInput" class="form-label space-out">Desired Protein Intake</label>
+    <input type="text" id="proteinInput" class="form-control" aria-describedby="">
+    <div id="help" class="form-text">
+      Enter how much protein intake you are aiming to have
+    </div>
+
+    <!--Carbs Input-->
+    <label for="carbsInput" class="form-label space-out">Carbohydrate Limit</label>
+    <input type="text" id="carbsInput" class="form-control" aria-describedby="">
+    <div id="help" class="form-text">
+      Enter limit for carbohydrates
+    </div>
+
+    <!--Fats input-->
+    <label for="fatsInput" class="form-label space-out">Fats Limit</label>
+    <input type="text" id="fatsInput" class="form-control" aria-describedby="">
+    <div id="help" class="form-text">
+      Enter amount of fats that fit your diet
+    </div>
+
+    <!--People input-->
+    <label for="peopleInput" class="form-label space-out">Number of people</label>
+    <input type="text" id="peopleInput" class="form-control" aria-describedby="">
+    <div id="help" class="form-text">
+      Enter how many people will be eating dinner
+    </div>
+    
+    <div class="mb-3 space-out">
+      <label for="ingridientsImage">Upload photo of your ingridients</label>
+      <input class="form-control space-out" type="file" id="ingridientsImage">
     </div>
     <button type="button" class="btn btn-outline-info space-out center">Generate Dinner</button>
   </div>
