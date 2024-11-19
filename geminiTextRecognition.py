@@ -2,8 +2,19 @@ import os
 import vertexai
 from vertexai.generative_models import GenerativeModel, SafetySetting
 
+textsi_1 = """You will be helping users to create recipes with the stuff they tell you that they have in their kitchen or at their disposal, add serving size, calories, fats amount, and protein."""
 
-def multiturn_generate_content(calories: str, protein: str,carbs: str,fat: str,people: str):
+def multiturn_generate_content(ingredients: str, calories: str, protein: str,carbs: str,fat: str,people: str):
+    """
+
+    :param ingredients: Full list of ingredients from the image they uploaded
+    :param calories: Calories that was sent from the website
+    :param protein: Protein that was sent in
+    :param carbs: Carbs that was sent in
+    :param fat: Fat amount that was sent in
+    :param people: Amount of people sent from website
+    :return: Gemini's response on what you should make
+    """
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "useful-flame-441821-h0-5e6960a95210.json"
 
     vertexai.init(project="useful-flame-441821-h0", location="us-central1")
@@ -18,28 +29,31 @@ def multiturn_generate_content(calories: str, protein: str,carbs: str,fat: str,p
     # Enable raw responses (use with caution in production)
     chat = model.start_chat(response_validation=False)
 
-    while True:
+    if ingredients == '':
         user_prompt = input("What ingredients do you have today (or type 'exit' to quit)?: ")
+    else:
+        user_prompt = ingredients
 
-        if user_prompt.lower() == "exit":
-            print("Exiting the program. Goodbye!")
-            break
+    #base formatting
+    assumed_ingredients = "salt, pepper"
+    formattedNutrients = f"with only {calories} calories, {protein} protein, {carbs} carbs, {fat} fat, for {people} people"
 
-        assumed_ingredients = "salt, pepper"
-        formattedNutrients = f"with only {calories} calories, {protein} protein, {carbs} carbs, {fat} fat, for {people} people"
+    #formatting questions to be sent to gemini
+    full_prompt = f"What can I make with: {user_prompt}, {assumed_ingredients},  {formattedNutrients}"
+    start_format = "\nGemini says you should try:\n"
+    text = ""
 
-        full_prompt = f"What can I make with: {user_prompt}, {assumed_ingredients},  {formattedNutrients}"
-        start_format = "\nGemini says you should try:\n"
+    #Try and get a response from Gemini
+    try:
+        print(f"Debug: Sending to model -> {full_prompt}")
+        response = chat.send_message(full_prompt)
+        text = start_format+ response.text
+        print(start_format + response.text)
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
-        try:
-            print(f"Debug: Sending to model -> {full_prompt}")
-            response = chat.send_message(full_prompt)
-            print(start_format + response.text)
-        except Exception as e:
-            print(f"An error occurred: {e}")
+    return text
 
-
-textsi_1 = """You will be helping users to create recipes with the stuff they tell you that they have in their kitchen or at their disposal, add serving size, calories, fats amount, and protein."""
 
 generation_config = {
     "max_output_tokens": 1024,
