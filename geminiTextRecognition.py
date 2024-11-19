@@ -37,7 +37,7 @@ def multiturn_generate_content():
             print(f"An error occurred: {e}")
 
 
-textsi_1 = """You will be helping users to create recipes with the stuff they tell you that they have in their kitchen or disposal."""
+textsi_1 = """You will be helping users to create recipes with the stuff they tell you that they have in their kitchen or at their disposal, add serving size, calories, fats amount, and protein."""
 
 generation_config = {
     "max_output_tokens": 1024,
