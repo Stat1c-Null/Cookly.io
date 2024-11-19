@@ -4,6 +4,8 @@ from vertexai.generative_models import GenerativeModel, SafetySetting
 
 textsi_1 = """You will be helping users to create recipes with the stuff they tell you that they have in their kitchen or at their disposal, add serving size, calories, fats amount, and protein."""
 
+recipe_store = {"data": None}
+
 def multiturn_generate_content(ingredients: str, calories: str, protein: str,carbs: str,fat: str,people: str):
     """
 
@@ -49,11 +51,14 @@ def multiturn_generate_content(ingredients: str, calories: str, protein: str,car
         response = chat.send_message(full_prompt)
         text = start_format+ response.text
         print(start_format + response.text)
+        recipe_store["data"] = response.text
     except Exception as e:
         print(f"An error occurred: {e}")
 
     return text
 
+def get_recipe():
+    return recipe_store.get("data")
 
 generation_config = {
     "max_output_tokens": 1024,

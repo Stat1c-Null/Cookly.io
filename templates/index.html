@@ -51,34 +51,16 @@
       <button type="button" id="submitButton" class="btn btn-outline-info space-out center">Generate Dinner</button>
     </form>
 
-    <div id="confirmationMessage" style="display: none; color: green; margin-top: 20px;">
+    <div id="confirmationMessage" style="display: none; color: rgb(18, 180, 235); margin-top: 20px;">
       Data received successfully!
+    </div>
+
+    <div id="results">
+      
     </div>
   </div>
 
-  <script>
-    document.getElementById("submitButton").addEventListener("click", function () {
-        const form = document.getElementById("dietForm");
-        const formData = new FormData(form);
-
-        fetch("/views/submit", {
-            method: "POST",
-            body: formData,
-        })
-        .then((response) => response.text())
-        .then((data) => {
-            // Show confirmation message
-            document.getElementById("confirmationMessage").style.display = "block";
-
-            // Clear the form inputs
-            form.reset();
-        })
-        .catch((error) => {
-            console.error("Error submitting form:", error);
-        });
-    });
-  </script>
-
+  <script src="{{ url_for('static', filename='script.js')}}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
