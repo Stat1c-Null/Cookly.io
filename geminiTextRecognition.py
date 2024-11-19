@@ -3,7 +3,7 @@ import vertexai
 from vertexai.generative_models import GenerativeModel, SafetySetting
 
 
-def multiturn_generate_content():
+def multiturn_generate_content(calories: str, protein: str,carbs: str,fat: str,people: str):
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "useful-flame-441821-h0-5e6960a95210.json"
 
     vertexai.init(project="useful-flame-441821-h0", location="us-central1")
@@ -26,7 +26,9 @@ def multiturn_generate_content():
             break
 
         assumed_ingredients = "salt, pepper"
-        full_prompt = f"What can I make with: {user_prompt}, {assumed_ingredients}"
+        formattedNutrients = f"with only {calories} calories, {protein} protein, {carbs} carbs, {fat} fat, for {people} people"
+
+        full_prompt = f"What can I make with: {user_prompt}, {assumed_ingredients},  {formattedNutrients}"
         start_format = "\nGemini says you should try:\n"
 
         try:
@@ -64,4 +66,3 @@ safety_settings = [
     ),
 ]
 
-multiturn_generate_content()
