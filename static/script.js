@@ -40,10 +40,57 @@ async function checkRecipe() {
 }
 
 function displayRecipe(recipe) {
+  localStorage.clear()
+  sessionStorage.clear()
+
+  document.getElementById("results").style.display = "block";
   //Display data on the screen
-  const recipeDiv = document.getElementById("results");
-  const result = recipe.replace(/\*/g, "<br>");
-  console.log(result);
-  recipeDiv.innerHTML = `<p>${result}</p>`;
+  const mealName = document.getElementById("meal-name");
+  //const ingredients = document.getElementById("meal-name");
+  const instructions = document.getElementById("instructions");
+  const notes = document.getElementById("notes");
+  let keywords = ["Meal Name", "Ingredients", "Instructions", "Notes"];
+  let extractedText = {};
+
+  //Loop through each keyword and extract data between them
+  keywords.forEach((word, index) => {
+    if (index < keywords.length - 1) {
+      // For all keywords except the last one
+      let regex = new RegExp(`\\*\\*${word}:\\*\\*(.*?)\\*\\*${keywords[index + 1]}`, "gs");
+      let match = regex.exec(recipe);
+      if (match) {
+        extractedText[word] = match[1].trim();
+      }
+    } else {
+      // For the last keyword, capture everything after it
+      let regex = new RegExp(`\\*\\*${word}:\\*\\*(.*)`, "gs");
+      let match = regex.exec(recipe);
+      if (match) {
+        extractedText[word] = match[1].trim();
+      }
+    }
+  });
+  
+  Object.keys(extractedText).forEach(key => {
+    console.log(`\n${key}:\n${extractedText[key]}`);
+  });
+
+  //Display data
+  mealName.innerText = extractedText["Meal Name"];
+
+  //Loop through every ingridient and make <li> for it
+  const ingredientsText = extractedText["Ingredients"];
+  const ingredientsArray = ingredientsText
+            .trim()                     
+            .split("\n")                
+            .map(line => line.trim())   
+            .filter(line => line.startsWith("*")) 
+
+  const listItemsHTML = ingredientsArray.map(ingredient => `<li class="list-group-item">${ingredient.slice(1).trim()}</li>`).join("");
+
+  document.getElementById("ingredientsList").innerHTML = listItemsHTML;
+
+  instructions.innerText = extractedText["Instructions"];
+  notes.innerText = extractedText["Notes"];
 }
 

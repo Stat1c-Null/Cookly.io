@@ -41,7 +41,7 @@ def multiturn_generate_content(ingredients: str, calories: str, protein: str,car
     formattedNutrients = f"with only {calories} calories, {protein} protein, {carbs} carbs, {fat} fat, for {people} people"
 
     #formatting questions to be sent to gemini
-    full_prompt = f"What can I make with: {user_prompt}, {assumed_ingredients},  {formattedNutrients}"
+    full_prompt = f"What can I make with: {user_prompt}, {assumed_ingredients},  {formattedNutrients}.Break your response into the following parts:Meal Name,Ingridients,Instructions,Notes.For each section write the name of it at the top"
     start_format = "\nGemini says you should try:\n"
     text = ""
 
