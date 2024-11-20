@@ -8,7 +8,8 @@ their kitchen or at their disposal, add serving size, calories, fats amount, and
 
 recipe_store = {"data": None}
 
-def multiturn_generate_content(ingredients: str, calories: str, protein: str,carbs: str,fat: str,people: str):
+
+def multiturn_generate_content(ingredients: str, calories: str, protein: str, carbs: str, fat: str, people: str):
     """
 
     :param ingredients: Full list of ingredients from the image they uploaded
@@ -40,7 +41,7 @@ def multiturn_generate_content(ingredients: str, calories: str, protein: str,car
 
     #base formatting
     assumed_ingredients = "salt, pepper, oil"
-    formattedNutrients = f"with under {calories} calories, {protein} protein, {carbs} carbs, {fat} fat, for {people} people"
+    formattedNutrients = format(calories, protein, carbs, fat, people)
 
     #formatting questions to be sent to gemini
     full_prompt = f"What can I cook with: {user_prompt}, {assumed_ingredients},  {formattedNutrients}.Break your response into the following parts:Meal Name,Ingridients,Instructions,Notes.For each section write the name of it at the top"
@@ -51,7 +52,7 @@ def multiturn_generate_content(ingredients: str, calories: str, protein: str,car
     try:
         print(f"Debug: Sending to model -> {full_prompt}")
         response = chat.send_message(full_prompt)
-        text = start_format+ response.text
+        text = start_format + response.text
         print(start_format + response.text)
         recipe_store["data"] = text
     except Exception as e:
@@ -59,8 +60,42 @@ def multiturn_generate_content(ingredients: str, calories: str, protein: str,car
 
     return text
 
+
 def get_recipe():
     return recipe_store.get("data")
+
+
+def format(calories, protein, carbs, fat, people):
+    formattedNutrients = ""
+    if calories is not None and calories != "":
+        formattedNutrients += f"under {calories} calories"
+    else:
+        formattedNutrients += f""
+    if protein is not None and protein != "":
+        formattedNutrients += f", {protein} protein"
+    else:
+        formattedNutrients += ""
+
+    if carbs is not None and carbs != "":
+        formattedNutrients += f", {carbs} carbs"
+    else:
+        formattedNutrients += ""
+
+    if fat is not None and fat != "":
+        formattedNutrients += f", {fat} fat"
+    else:
+        formattedNutrients += ""
+
+    if people is not None and people != "":
+        if people == "1":
+            formattedNutrients += f", for 1 person"
+        else:
+            formattedNutrients += f", for {people} people"
+    else:
+        formattedNutrients += ""
+
+    return formattedNutrients
+
 
 generation_config = {
     "max_output_tokens": 1024,
@@ -121,4 +156,3 @@ Creamy Ham and Leek Pasta
 * For a lower-fat version, use less butter and milk, or substitute some of the milk with vegetable broth.
 * To calculate the approximate calories, fat, protein, and carbs you'll need to use a nutrition calculator and input the specific brands and weights of your ingredients.  Nutrient content can vary between brands.  This will give a far more accurate picture than general estimates.  Remember that this recipe is aiming for a healthier, lower calorie version, rather than meeting the unrealistic macro targets initially requested.
 """
-
