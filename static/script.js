@@ -36,6 +36,7 @@ async function checkRecipe() {
     displayRecipe(result.data);
   } else {
     setTimeout(checkRecipe, 1000);
+
   }
 }
 
@@ -44,6 +45,10 @@ function displayRecipe(recipe) {
   sessionStorage.clear()
 
   document.getElementById("results").style.display = "block";
+    // Ensure recipe is a string
+
+  console.log(recipe)
+
   //Display data on the screen
   const mealName = document.getElementById("meal-name");
   //const ingredients = document.getElementById("meal-name");

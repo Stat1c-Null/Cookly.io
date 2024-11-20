@@ -10,8 +10,12 @@ def home():
     return render_template("index.html")
 
 
-@views.route("/submit", methods=["POST"])
+@views.route("/submit", methods=["GET", "POST"])
 def submit():
+    if request.method == "GET":
+        # Handle GET request logic (if any)
+        return jsonify({"message": "GET method for /submit is not implemented"})
+
     calorie_limit = request.form.get('calorieInput')
     protein_intake = request.form.get('proteinInput')
     carb_limit = request.form.get('carbsInput')
@@ -25,9 +29,10 @@ def submit():
         print(f"Uploaded Image: {ingredients_image.filename}")
     else:
         print("Couldn't upload")
+
     return generate(calorie_limit, protein_intake, carb_limit, fat_limit, number_of_people, ingredients_image)
 
-@views.route("/fetch_data")
+@views.route("/fetch_data", methods= ["GET"])
 def fetch_data():
     #Fetch recipe from gemini
     recipe = get_recipe()

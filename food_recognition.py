@@ -10,10 +10,9 @@ from werkzeug.datastructures import FileStorage
 from geminiTextRecognition import multiturn_generate_content
 
 
-#This could be better but its just what the AI should be doing with the information like context.
+#instructions f or the AI
 textsi_1 = """We only want to find out what ingredients this person has by analyzing what is inside their fridge, 
 pantry, or etc. Make it comma separated like: banana, apple, syrup... etc. Listing all the ingredients in their fridge"""
-
 
 def generate(calories: str, protein: str, carbs: str, fat: str, people: str, image):
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "useful-flame-441821-h0-5e6960a95210.json"
@@ -39,7 +38,7 @@ def generate(calories: str, protein: str, carbs: str, fat: str, people: str, ima
         data=base64.b64decode(encoded_image),
     )
 
-    #Needs fine tuning but it should be good after this
+    #Needs fine-tuning but it should be good after this
     responses = model.generate_content(
         [image1, """What is in this fridge?"""],
         generation_config=generation_config,
