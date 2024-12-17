@@ -1,6 +1,10 @@
+var loader = document.getElementById("loader");
+
 document.getElementById("submitButton").addEventListener("click", function () {
   const form = document.getElementById("dietForm");
   const formData = new FormData(form);
+
+  loader.style.display = "block";
 
   fetch("/views/submit", {
       method: "POST",
@@ -97,5 +101,7 @@ function displayRecipe(recipe) {
 
   instructions.innerText = extractedText["Instructions"];
   notes.innerText = extractedText["Notes"];
+
+  loader.style.display = "none";
 }
 

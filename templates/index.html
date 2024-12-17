@@ -48,14 +48,22 @@
         <input class="form-control space-out" type="file" id="ingredientsImage" name="ingredientsImage">
       </div>
 
-      <button type="button" id="submitButton" class="btn btn-outline-info space-out center">Generate Dinner</button>
+      <button type="button" id="submitButton" class="btn btn-outline-info space-out center">Generate Meal</button>
     </form>
 
-    <div id="confirmationMessage" style="display: none; color: rgb(18, 180, 235); margin-top: 20px;">
+    <div id="loader">
+      <div class="d-flex justify-content-center">
+        <div class="spinner-grow text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    </div>
+    
+    <div id="confirmationMessage">
       Data received successfully!
     </div>
 
-    <div id="results" style="display: none;">
+    <div id="results">
       <h5 id="meal-name"></h5>
       <!--Ingridients-->
       <div class="card">

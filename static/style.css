@@ -25,3 +25,13 @@
   width: 100%;
   margin-top: 4%;
 }
+
+#confirmationMessage {
+  display: none; 
+  color: rgb(18, 180, 235); 
+  margin-top: 20px;
+}
+
+#results, #loader{
+  display: none;
+}
