@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, jsonify
-from food_recognition import generate
+from food_recognition import analyzeImage
+from geminiTextRecognition import multiturn_generate_content
 from geminiTextRecognition import get_recipe
 
 views = Blueprint(__name__, "views")
@@ -9,7 +10,19 @@ views = Blueprint(__name__, "views")
 def home():
     return render_template("index.html")
 
+@views.route("/submitImage", methods=["GET", "POST"])
+def submitImage():
+    if 'file' not in request.files:
+        return jsonify({"error": "No file part in the request"}), 400
+    file = request.files['file']
 
+    if file.filename == '':
+        return jsonify({"error": "No selected file"}), 400
+
+    #We call the analyzeImage method in food_recognition.py to get the ingredients response as a json
+    return jsonify(analyzeImage(file))
+
+    #We call the
 @views.route("/submit", methods=["GET", "POST"])
 def submit():
     if request.method == "GET":
@@ -21,16 +34,17 @@ def submit():
     carb_limit = request.form.get('carbsInput')
     fat_limit = request.form.get('fatsInput')
     number_of_people = request.form.get('peopleInput')
-    ingredients_image = request.files.get('ingredientsImage')
+    ingredientsTextBox = request.form.get('ingredientsTextBox')
 
     print(f"Calories: {calorie_limit}, Protein: {protein_intake}, Carbs: {carb_limit}, Fats: {fat_limit}, People: {number_of_people}")
-    if ingredients_image:
-        ingredients_image.save(f'images/uploadedImage.png')
-        print(f"Uploaded Image: {ingredients_image.filename}")
-    else:
-        print("Couldn't upload")
 
-    return generate(calorie_limit, protein_intake, carb_limit, fat_limit, number_of_people, ingredients_image)
+    ##if ingredients_image:
+    #    ingredients_image.save(f'images/uploadedImage.png')
+    #    print(f"Uploaded Image: {ingredients_image.filename}")
+    #else:
+    #    print("Couldn't upload")
+
+    return multiturn_generate_content(ingredientsTextBox,calorie_limit, protein_intake, carb_limit, fat_limit, number_of_people)
 
 @views.route("/fetch_data", methods= ["GET"])
 def fetch_data():

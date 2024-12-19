@@ -2,6 +2,8 @@ import os
 import vertexai
 from vertexai.generative_models import GenerativeModel, SafetySetting
 
+
+
 textsi_1 = """You will be helping users to create recipes with the stuff they tell you that they have in 
 their kitchen or at their disposal, add serving size, calories, fats amount, and protein. When writing the recipe have it like **Meal Name** Name and not on a new line keep it right next to it.
  Format it like **Meal Name:** (Actual Meal Name Here), **Ingredients:** (Actual Ingredient list), **Instructions:** (Actual Instruction list), **Notes:** (Actual notes)"""
@@ -66,6 +68,15 @@ def get_recipe():
 
 
 def format(calories, protein, carbs, fat, people):
+    """
+    Formats the string in case of empty values
+    :param calories:
+    :param protein:
+    :param carbs:
+    :param fat:
+    :param people:
+    :return:
+    """
     formattedNutrients = ""
     if calories is not None and calories != "":
         formattedNutrients += f"under {calories} calories"

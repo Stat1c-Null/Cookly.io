@@ -47,11 +47,27 @@
         <label for="ingredientsImage">Upload photo of your ingredients</label>
         <input class="form-control space-out" type="file" id="ingredientsImage" name="ingredientsImage">
       </div>
+      <button type="button" id="analyzeImageButton" class="btn btn-outline-info space-out center">Analyze Food Items</button>
+      <!--Image Loader Button-->
+      <div id="imageLoader">
+      <div class="d-flex justify-content-center">
+        <div class="spinner-grow text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+      </div>
 
+      <!--Ingredients Generated-->
+      <div class="InputFieldBox">
+        <label for="ingredientsTextBox">Ingredients</label>
+        <div id="help" class="form-text">Analyzed Ingredients will go here or you can write out your ingredients.</div>
+        <textarea class="form-control space-out" id="ingredientsTextBox" name="ingredientsTextBox" rows="10" cols="50"></textarea>
+      </div>
       <button type="button" id="submitButton" class="btn btn-outline-info space-out center">Generate Meal</button>
+
     </form>
 
-    <div id="loader">
+    <div id="mealLoader">
       <div class="d-flex justify-content-center">
         <div class="spinner-grow text-primary" role="status">
           <span class="visually-hidden">Loading...</span>

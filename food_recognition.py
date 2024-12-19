@@ -1,20 +1,18 @@
 import base64
 from flask import request
-
 import os
-
+from PIL import Image
 import vertexai
 from vertexai.generative_models import GenerativeModel, Part, SafetySetting
-from werkzeug.datastructures import FileStorage
-
-from geminiTextRecognition import multiturn_generate_content
 
 
-#instructions f or the AI
+#instructions for the AI
 textsi_1 = """We only want to find out what ingredients this person has by analyzing what is inside their fridge, 
 pantry, or etc. Make it comma separated like: banana, apple, syrup... etc. Listing all the ingredients in their fridge"""
+recipe_store = {"data": None}
 
-def generate(calories: str, protein: str, carbs: str, fat: str, people: str, image):
+
+def analyzeImage(image):
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "useful-flame-441821-h0-5e6960a95210.json"
 
     vertexai.init(project="useful-flame-441821-h0", location="us-central1")
@@ -22,8 +20,11 @@ def generate(calories: str, protein: str, carbs: str, fat: str, people: str, ima
         "gemini-1.5-flash-002",
         system_instruction=[textsi_1]
     )
-
+    #Establishes path name and saves the image
     pathName = "images/uploadedImage.png"
+    img = Image.open(image)
+    img.save("images/uploadedImage.png")
+
     with open(pathName, "rb") as imgFile:
         imageData = imgFile.read()
 
@@ -58,9 +59,9 @@ def generate(calories: str, protein: str, carbs: str, fat: str, people: str, ima
         print("Unable to remove image")
 
 
-    print("Full response: " + fullResponse)
-    #we move into generating an actual response
-    return multiturn_generate_content(fullResponse, calories, protein, carbs, fat, people)
+    #print("Full response: " + fullResponse)
+    #After generating the ingredients it sees we now send back the data as a json
+    return {"data": fullResponse}
 
 
 

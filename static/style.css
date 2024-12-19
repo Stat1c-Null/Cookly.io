@@ -32,6 +32,6 @@
   margin-top: 20px;
 }
 
-#results, #loader{
+#results, #mealLoader, #imageLoader{
   display: none;
 }

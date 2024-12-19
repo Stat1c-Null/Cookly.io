@@ -1,10 +1,47 @@
-var loader = document.getElementById("loader");
+var mealLoader = document.getElementById("mealLoader");
+var imageLoader = document.getElementById("imageLoader")
+//Analyze Image Button
+document.getElementById("analyzeImageButton").addEventListener("click", function () {
+    const fileInput = document.getElementById("ingredientsImage");
+    const file = fileInput.files[0];
+    imageLoader.style.display = "block";
 
+
+    if (!file) {
+        alert("Please select an image to analyze.");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    fetch("/views/submitImage", {
+        method: "POST",
+        body: formData,
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            console.error("Error:", data.error);
+        }
+        //console.log(data["data"])
+        const ingredientsTextBox = document.getElementById("ingredientsTextBox");
+        ingredientsTextBox.value = data["data"];
+        imageLoader.style.display = "none";
+    })
+    .catch(error => {
+        console.error("Error:", error);
+    });
+
+});
+
+
+//Submit Meal Button
 document.getElementById("submitButton").addEventListener("click", function () {
   const form = document.getElementById("dietForm");
   const formData = new FormData(form);
 
-  loader.style.display = "block";
+  mealLoader.style.display = "block";
 
   fetch("/views/submit", {
       method: "POST",
@@ -102,6 +139,6 @@ function displayRecipe(recipe) {
   instructions.innerText = extractedText["Instructions"];
   notes.innerText = extractedText["Notes"];
 
-  loader.style.display = "none";
+  mealLoader.style.display = "none";
 }
 
