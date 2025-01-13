@@ -1,16 +1,21 @@
 from flask import Flask
 from views import views
-from flask_sqlalchemy import SQLAlchemy
+from config import DB
 
-app = Flask(__name__,template_folder = "templates", static_folder = "static")
+def create_app():
+    app = Flask(__name__,template_folder = "templates", static_folder = "static")
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
-db = SQLAlchemy(app)
-app.config['DB'] = db
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///CooklyDB.db'
+    app.secret_key = "test"
 
-app.register_blueprint(views,url_prefix = "/views")
+    DB.init_app(app)
 
+    app.register_blueprint(views,url_prefix = "/views")
 
+    return app
 if __name__ == "__main__": 
-    app.app_context().push()
+    app = create_app()
+    with app.app_context():
+        DB.create_all()
+
     app.run(debug = True, port = 8000)

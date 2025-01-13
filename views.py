@@ -1,16 +1,16 @@
-from flask import Blueprint, render_template, request, jsonify, flash, session, current_app
+from flask import Blueprint, render_template, request, jsonify, flash, session, current_app, redirect, url_for
 from food_recognition import analyzeImage
 from geminiTextRecognition import multiturn_generate_content
 from geminiTextRecognition import get_recipe
+from werkzeug.security import generate_password_hash, check_password_hash
+from config import DB
 
 views = Blueprint(__name__, "views")
 
-db = current_app.config.get('DB')
-
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True)
-    password = db.Column(db.String(120))
+class User(DB.Model):
+    id = DB.Column(DB.Integer, primary_key=True)
+    username = DB.Column(DB.String(80), unique=True)
+    password = DB.Column(DB.String(120))
 
     def __init__(self, username, password):
         self.username = username
@@ -19,6 +19,27 @@ class User(db.Model):
 @views.route("/")
 def home():
     return render_template("index.html")
+
+@views.route("/register", methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        print(username, password)
+
+        existing_user = User.query.filter_by(username=username).first()
+        if existing_user:
+            flash('Username already exists', 'danger')
+            return redirect(url_for('/register'))
+        else:
+            print("User saved")
+            new_user = User(username, generate_password_hash(password))
+            DB.session.add(new_user)
+            DB.session.commit()
+            flash('You have successfully created an account', 'success')
+            return redirect(url_for('/register'))
+
+    return render_template("register.html")
 
 @views.route("/submitImage", methods=["GET", "POST"])
 def submitImage():
