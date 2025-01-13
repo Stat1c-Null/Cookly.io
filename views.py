@@ -1,10 +1,20 @@
-from flask import Blueprint, render_template, request, jsonify
+from flask import Blueprint, render_template, request, jsonify, flash, session, current_app
 from food_recognition import analyzeImage
 from geminiTextRecognition import multiturn_generate_content
 from geminiTextRecognition import get_recipe
 
 views = Blueprint(__name__, "views")
 
+db = current_app.config.get('DB')
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True)
+    password = db.Column(db.String(120))
+
+    def __init__(self, username, password):
+        self.username = username
+        self.password = password
 
 @views.route("/")
 def home():
