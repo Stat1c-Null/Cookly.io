@@ -29,15 +29,16 @@ def register():
 
         existing_user = User.query.filter_by(username=username).first()
         if existing_user:
+            print("Username already exists");
             flash('Username already exists', 'danger')
-            return redirect(url_for('/register'))
+            return redirect(url_for('views.register'))
         else:
             print("User saved")
             new_user = User(username, generate_password_hash(password))
             DB.session.add(new_user)
             DB.session.commit()
             flash('You have successfully created an account', 'success')
-            return redirect(url_for('/register'))
+            return redirect(url_for('views.register'))
 
     return render_template("register.html")
 
