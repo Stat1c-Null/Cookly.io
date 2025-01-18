@@ -1,5 +1,7 @@
 var mealLoader = document.getElementById("mealLoader");
 var imageLoader = document.getElementById("imageLoader")
+var otherText = document.getElementById("otherText")
+
 //Analyze Image Button
 document.getElementById("analyzeImageButton").addEventListener("click", function () {
     const fileInput = document.getElementById("ingredientsImage");
