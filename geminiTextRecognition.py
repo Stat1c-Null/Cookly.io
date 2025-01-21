@@ -11,7 +11,7 @@ their kitchen or at their disposal, add serving size, calories, fats amount, and
 recipe_store = {"data": None}
 
 
-def multiturn_generate_content(ingredients: str, calories: str, protein: str, carbs: str, fat: str, people: str):
+def multiturn_generate_content(ingredients: str, calories: str, protein: str, carbs: str, fat: str, people: str, allergens: list):
     """
 
     :param ingredients: Full list of ingredients from the image they uploaded
@@ -44,9 +44,11 @@ def multiturn_generate_content(ingredients: str, calories: str, protein: str, ca
     #base formatting
     assumed_ingredients = "salt, pepper, oil"
     formattedNutrients = format(calories, protein, carbs, fat, people)
+    formmatedAllergens = formatAllergens(allergens)
+
 
     #formatting questions to be sent to gemini
-    full_prompt = f"What can I cook with: {user_prompt}, {assumed_ingredients},  {formattedNutrients}.Break your response into the following parts:Meal Name,Ingridients,Instructions,Notes.For each section write the name of it at the top"
+    full_prompt = f"What can I cook with: {user_prompt}, {assumed_ingredients}{formmatedAllergens}.Break your response into the following parts:Meal Name,Ingridients,Instructions,Notes.For each section write the name of it at the top"
     start_format = "\nGemini says you should try:\n"
     text = ""
 
@@ -106,6 +108,16 @@ def format(calories, protein, carbs, fat, people):
         formattedNutrients += ""
 
     return formattedNutrients
+
+
+def formatAllergens(allergens: list) -> str:
+    s = ""
+    for string in allergens:
+        s += string + ", "
+    if s == "":
+        return ""
+    else:
+        return ", my allergies are " + s
 
 
 generation_config = {

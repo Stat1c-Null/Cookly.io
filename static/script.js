@@ -1,6 +1,6 @@
 var mealLoader = document.getElementById("mealLoader");
-var imageLoader = document.getElementById("imageLoader")
-var otherText = document.getElementById("otherText")
+var imageLoader = document.getElementById("imageLoader");
+var otherText = document.getElementById("otherText");
 
 //Analyze Image Button
 document.getElementById("analyzeImageButton").addEventListener("click", function () {
@@ -144,3 +144,12 @@ function displayRecipe(recipe) {
   mealLoader.style.display = "none";
 }
 
+
+//Hide and unhide the other text
+document.getElementById("other").addEventListener("change", function () {
+    if (this.checked) {
+        otherText.style.display = "block"
+    } else {
+        otherText.style.display = "none"
+    }
+});
