@@ -6,12 +6,13 @@ var otherText = document.getElementById("otherText");
 document.getElementById("analyzeImageButton").addEventListener("click", function () {
     const fileInput = document.getElementById("ingredientsImage");
     const file = fileInput.files[0];
-    imageLoader.style.display = "block";
 
 
     if (!file) {
         alert("Please select an image to analyze.");
         return;
+    }else{
+        imageLoader.style.display = "block";
     }
 
     const formData = new FormData();
