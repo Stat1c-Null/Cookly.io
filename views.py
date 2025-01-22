@@ -35,8 +35,17 @@ def submit():
     fat_limit = request.form.get('fatsInput')
     number_of_people = request.form.get('peopleInput')
     ingredientsTextBox = request.form.get('ingredientsTextBox')
+    allergens = []
+    for allergen in ['Dairy', 'Eggs', 'Fish', 'Shellfish', 'Peanuts', 'Soy', 'Wheat', 'Tree Nuts', 'Sesame','Gluten-Free']:
+        if request.form.get(allergen):
+            allergens.append(allergen)
+    if request.form.get('other'):
+        allergens.append(request.form.get('otherText'))
+
+
 
     print(f"Calories: {calorie_limit}, Protein: {protein_intake}, Carbs: {carb_limit}, Fats: {fat_limit}, People: {number_of_people}")
+    print(f"Allergens: {allergens}")
 
     ##if ingredients_image:
     #    ingredients_image.save(f'images/uploadedImage.png')
@@ -44,7 +53,7 @@ def submit():
     #else:
     #    print("Couldn't upload")
 
-    return multiturn_generate_content(ingredientsTextBox,calorie_limit, protein_intake, carb_limit, fat_limit, number_of_people)
+    return multiturn_generate_content(ingredientsTextBox,calorie_limit, protein_intake, carb_limit, fat_limit, number_of_people, allergens)
 
 @views.route("/fetch_data", methods= ["GET"])
 def fetch_data():
