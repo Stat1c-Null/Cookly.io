@@ -1,15 +1,18 @@
 var mealLoader = document.getElementById("mealLoader");
-var imageLoader = document.getElementById("imageLoader")
+var imageLoader = document.getElementById("imageLoader");
+var otherText = document.getElementById("otherText");
+
 //Analyze Image Button
 document.getElementById("analyzeImageButton").addEventListener("click", function () {
     const fileInput = document.getElementById("ingredientsImage");
     const file = fileInput.files[0];
-    imageLoader.style.display = "block";
 
 
     if (!file) {
         alert("Please select an image to analyze.");
         return;
+    }else{
+        imageLoader.style.display = "block";
     }
 
     const formData = new FormData();
@@ -142,3 +145,12 @@ function displayRecipe(recipe) {
   mealLoader.style.display = "none";
 }
 
+
+//Hide and unhide the other text
+document.getElementById("other").addEventListener("change", function () {
+    if (this.checked) {
+        otherText.style.display = "block"
+    } else {
+        otherText.style.display = "none"
+    }
+});
