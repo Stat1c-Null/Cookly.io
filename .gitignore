@@ -4,6 +4,9 @@ __pycache__/
 *$py.class
 useful-flame-441821-h0-5e6960a95210.json
 
+#fuck node_modules
+node_modules
+
 # C extensions
 *.so
 useful-flame-441821-h0-5e6960a95210.json

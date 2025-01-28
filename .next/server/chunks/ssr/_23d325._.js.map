@@ -1,0 +1,9 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file://Z%3A/Coding/GitHub/Python/Cookly.io/src/app/page.js"],"sourcesContent":["import Image from \"next/image\";\n\nexport default function Home() {\n  return (\n    <div className=\"grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]\">\n      <main className=\"flex flex-col gap-8 row-start-2 items-center sm:items-start\">\n        \n        <div className=\"flex gap-4 items-center flex-col sm:flex-row\">\n        \n        </div>\n      </main>\n      <footer className=\"row-start-3 flex gap-6 flex-wrap items-center justify-center\">\n        \n      </footer>\n    </div>\n  );\n}\n"],"names":[],"mappings":";;;;AAAA;;;AAEe,SAAS;IACtB,qBACE,8OAAC;QAAI,WAAU;;0BACb,8OAAC;gBAAK,WAAU;0BAEd,cAAA,8OAAC;oBAAI,WAAU;;;;;;;;;;;0BAIjB,8OAAC;gBAAO,WAAU;;;;;;;;;;;;AAKxB"}},
+    {"offset": {"line": 46, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}},
+    {"offset": {"line": 57, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":""}},
+    {"offset": {"line": 57, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
+}
