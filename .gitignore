@@ -6,6 +6,7 @@ useful-flame-441821-h0-5e6960a95210.json
 
 #fuck node_modules
 node_modules
+.next
 
 # C extensions
 *.so
