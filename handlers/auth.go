@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"net/http"
+
 	"github.com/Stat1c-Null/Cookly.io/models"
 	"github.com/Stat1c-Null/Cookly.io/sessions"
 	"github.com/Stat1c-Null/Cookly.io/templates"
@@ -26,7 +27,10 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	templates.Templates.ExecuteTemplate(w, "login.html", nil)
+	if err := templates.Templates["login.html"].ExecuteTemplate(w, "base.html", map[string]interface{}{}); err != nil {
+		panic(err)
+	}
+
 }
 
 func RegisterHandler(w http.ResponseWriter, r *http.Request) {
@@ -44,7 +48,9 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	templates.Templates.ExecuteTemplate(w, "register.html", nil)
+	if err := templates.Templates["register.html"].ExecuteTemplate(w, "base.html", map[string]interface{}{}); err != nil {
+		panic(err)
+	}
 }
 
 func LogoutHandler(w http.ResponseWriter, r *http.Request) {

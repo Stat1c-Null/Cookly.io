@@ -3,19 +3,17 @@ package templates
 import (
 	"embed"
 	"html/template"
-	"log"
 )
 
 //go:embed *.html
 var templateFiles embed.FS
 
-var Templates *template.Template
+var Templates map[string]*template.Template
 
 func Init() {
-	var err error
+	Templates = make(map[string]*template.Template)
 	// Parse all HTML files in the embedded templates directory
-	Templates, err = template.ParseFS(templateFiles, "*.html")
-	if err != nil {
-		log.Fatal("Error parsing templates:", err)
-	}
+	Templates["home.html"] = template.Must(template.ParseFS(templateFiles, "home.html", "base.html"))
+	Templates["login.html"] = template.Must(template.ParseFS(templateFiles, "login.html", "base.html"))
+	Templates["register.html"] = template.Must(template.ParseFS(templateFiles, "register.html", "base.html"))
 }
