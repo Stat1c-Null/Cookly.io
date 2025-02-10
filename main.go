@@ -5,12 +5,16 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+
 	"github.com/Stat1c-Null/Cookly.io/db"
+	//"github.com/Stat1c-Null/Cookly.io/gem"
 	"github.com/Stat1c-Null/Cookly.io/handlers"
 	"github.com/Stat1c-Null/Cookly.io/templates"
+
+	"github.com/gorilla/mux"
 )
 
-//go:embed static/*
+//go:embed static
 var staticFiles embed.FS
 
 func main() {
@@ -20,15 +24,32 @@ func main() {
 	// Initialize templates
 	templates.Init()
 
-	// Serve static files
-	http.Handle("/static/", http.FileServer(http.FS(staticFiles)))
+	/*
+		recipe, err := gem.GetRecipe([]string{"bread","peanut butter","grape jelly"})
+		if err != nil {
+			panic(err)
+		}
+		fmt.Println(recipe)
+	*/
 
-	// Routes
-	http.HandleFunc("/", handlers.HomeHandler)
-	http.HandleFunc("/login", handlers.LoginHandler)
-	http.HandleFunc("/register", handlers.RegisterHandler)
-	http.HandleFunc("/logout", handlers.LogoutHandler)
+	// Create a new router.
+	r := mux.NewRouter()
+
+	// Public routes.
+	r.HandleFunc("/", handlers.HomeHandler)
+	r.HandleFunc("/login", handlers.LoginHandler)
+	r.HandleFunc("/register", handlers.RegisterHandler)
+
+	// Serve static files from the embedded "static" folder.
+	// Requests to "/static/..." will be served from the embedded files.
+	r.PathPrefix("/static/").Handler(http.FileServer(http.FS(staticFiles)))
+
+	// Protected routes: create a subrouter and attach the AuthMiddleware.
+	authRouter := r.NewRoute().Subrouter()
+	authRouter.Use(handlers.AuthMiddleware)
+	authRouter.HandleFunc("/logout", handlers.LogoutHandler)
+	authRouter.HandleFunc("/chef", handlers.ChefHandler)
 
 	fmt.Println("Server running on :8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(http.ListenAndServe(":8080", r))
 }
