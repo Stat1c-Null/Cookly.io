@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import HoverButton from "@/components/HoverButton";
 
 const allergensList = [
   "Dairy",
@@ -187,6 +188,29 @@ export default function Home() {
             <p className="mt-2 text-sm text-gray-700">Selected: {selectedFile.name}</p>
           )}
         </div>
+
+        {/*Analyze ingredients button*/}
+
+        <HoverButton text="Analyze Ingredients" onClick={() => alert("test")}/>
+
+        {/*Analyzed ingredients input*/}
+        <div className="w-full">
+          <label htmlFor="ingredients" className="block text-sm font-medium text-gray-700">
+            Ingredients
+          </label>
+          <textarea
+            type="text"
+            id="ingredients"
+            name="ingredients"
+            value={inputValue}
+            onChange={handleInputChange}
+            className="mt-1 block w-full px-3 py-6 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-black"
+            placeholder="Analyzed Ingredients will go here or you can write out your ingredients."
+          />
+        </div>
+
+        {/*Generate meal button */}
+        <HoverButton text="Generate Meal" onClick={() => alert("test")}/>
 
         <div className="flex gap-4 items-center flex-col sm:flex-row">
           
