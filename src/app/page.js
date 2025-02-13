@@ -19,10 +19,35 @@ const allergensList = [
 
 export default function Home() {
   //Form values input
-  const [inputValue, setInputValue] = useState("");
+  const [proteinValue, setProteinValue] = useState("");
+  const [calorieValue, setCalorieValue] = useState("");
+  const [carbsValue, setCarbsValue] = useState("");
+  const [fatsValue, setFatsValue] = useState("");
+  const [peopleValue, setPeopleValue] = useState("");
+  const [ingredientsValue, setIngredientsValue] = useState("");
 
-  const handleInputChange = (e) => {
-    setInputValue(e.target.value);
+  const handleProteinChange = (e) => {
+    setProteinValue(e.target.value);
+  };
+
+  const handleCalorieChange = (e) => {
+    setCalorieValue(e.target.value);
+  };
+
+  const handleCarbsChange = (e) => {
+    setCarbsValue(e.target.value);
+  };
+
+  const handleFatsChange = (e) => {
+    setFatsValue(e.target.value);
+  };
+
+  const handlePeopleChange = (e) => {
+    setPeopleValue(e.target.value);
+  };
+
+  const handleIngredientsChange = (e) => {
+    setIngredientsValue(e.target.value);
   };
 
   //Allergies selector
@@ -61,8 +86,8 @@ export default function Home() {
             type="text"
             id="calories"
             name="calories"
-            value={inputValue}
-            onChange={handleInputChange}
+            value={calorieValue}
+            onChange={handleCalorieChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-black"
             placeholder="Enter the limit of calories that you want to have"
           />
@@ -77,8 +102,8 @@ export default function Home() {
             type="text"
             id="protein"
             name="protein"
-            value={inputValue}
-            onChange={handleInputChange}
+            value={proteinValue}
+            onChange={handleProteinChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-black"
             placeholder="Enter how much protein intake you are aiming to have"
           />
@@ -93,8 +118,8 @@ export default function Home() {
             type="text"
             id="fats"
             name="fats"
-            value={inputValue}
-            onChange={handleInputChange}
+            value={fatsValue}
+            onChange={handleFatsChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-black"
             placeholder="Enter limit for fats"
           />
@@ -109,8 +134,8 @@ export default function Home() {
             type="text"
             id="carbs"
             name="carbs"
-            value={inputValue}
-            onChange={handleInputChange}
+            value={carbsValue}
+            onChange={handleCarbsChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-black"
             placeholder="Enter limit for carbohydrates"
           />
@@ -125,8 +150,8 @@ export default function Home() {
             type="text"
             id="people"
             name="people"
-            value={inputValue}
-            onChange={handleInputChange}
+            value={peopleValue}
+            onChange={handlePeopleChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-black"
             placeholder="Enter how many people will be having the meal"
           />
@@ -202,8 +227,8 @@ export default function Home() {
             type="text"
             id="ingredients"
             name="ingredients"
-            value={inputValue}
-            onChange={handleInputChange}
+            value={ingredientsValue}
+            onChange={handleIngredientsChange}
             className="mt-1 block w-full px-3 py-6 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-black"
             placeholder="Analyzed Ingredients will go here or you can write out your ingredients."
           />
