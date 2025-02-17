@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import HoverButton from "@/components/HoverButton";
+import InputField from "@/components/InputField";
 
 const allergensList = [
   "Dairy",
@@ -52,7 +53,7 @@ export default function Home() {
 
   //Allergies selector
   const [selectedAllergens, setSelectedAllergens] = useState([]);
-  const [otherAllergen, setOtherAllergen] = useState("");
+  const [otherAllergen, setOtherAllergen] = useState(null);
 
   const handleCheckboxChange = (allergen) => {
     setSelectedAllergens((prev) =>
@@ -78,84 +79,19 @@ export default function Home() {
         <p className="text-black font-medium text-lg">Upload photo of your ingredients and fill out the form. Cookly.io will analyze all of the ingredients and generate you a list of meals based on your macros. Leave fields blank if limit is not required</p>
         
         {/*Calories input*/}
-        <div className="w-full">
-          <label htmlFor="calories" className="block text-sm font-medium text-gray-700">
-            Calorie Limit
-          </label>
-          <input
-            type="text"
-            id="calories"
-            name="calories"
-            value={calorieValue}
-            onChange={handleCalorieChange}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-black"
-            placeholder="Enter the limit of calories that you want to have"
-          />
-        </div>
+        <InputField text="Calorie Limit" placeholder="Enter the limit of calories that you want to have" value={calorieValue} onChange={handleCalorieChange} />
 
         {/*Calories input*/}
-        <div className="w-full">
-          <label htmlFor="protein" className="block text-sm font-medium text-gray-700">
-            Desired Protein Intake
-          </label>
-          <input
-            type="text"
-            id="protein"
-            name="protein"
-            value={proteinValue}
-            onChange={handleProteinChange}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-black"
-            placeholder="Enter how much protein intake you are aiming to have"
-          />
-        </div>
+        <InputField text="Desired Protein Intake" placeholder="Enter how much protein intake you are aiming to have" value={proteinValue} onChange={handleProteinChange} />
 
         {/*Fats input*/}
-        <div className="w-full">
-          <label htmlFor="fats" className="block text-sm font-medium text-gray-700">
-            Fats Limit
-          </label>
-          <input
-            type="text"
-            id="fats"
-            name="fats"
-            value={fatsValue}
-            onChange={handleFatsChange}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-black"
-            placeholder="Enter limit for fats"
-          />
-        </div>
+        <InputField text="Fats Limit" placeholder="Enter limit for fats" value={fatsValue} onChange={handleFatsChange} />
 
         {/*Carbohydrates input*/}
-        <div className="w-full">
-          <label htmlFor="carbs" className="block text-sm font-medium text-gray-700">
-            Desired Carbs Intake
-          </label>
-          <input
-            type="text"
-            id="carbs"
-            name="carbs"
-            value={carbsValue}
-            onChange={handleCarbsChange}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-black"
-            placeholder="Enter limit for carbohydrates"
-          />
-        </div>
+        <InputField text="Desired Carb Intake" placeholder="Enter limit of carbohydrates" value={carbsValue} onChange={handleCarbsChange} />
 
         {/*Number of people input*/}
-        <div className="w-full">
-          <label htmlFor="people" className="block text-sm font-medium text-gray-700">
-            Number of people
-          </label>
-          <input
-            type="text"
-            id="people"
-            name="people"
-            value={peopleValue}
-            onChange={handlePeopleChange}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-black"
-            placeholder="Enter how many people will be having the meal"
-          />
-        </div>
+        <InputField text="Number of people" placeholder="Enter how many people will be having the meal" value={peopleValue} onChange={handlePeopleChange} />
 
         {/*Allergens*/}
         <div className="w-full">
@@ -180,7 +116,7 @@ export default function Home() {
           <label className="flex items-center mt-3 text-black">
             <input
               type="checkbox"
-              checked={!!otherAllergen}
+              checked={otherAllergen !== null}
               onChange={(e) => setOtherAllergen(e.target.checked ? "" : null)}
               className="mr-2"
             />
@@ -192,7 +128,7 @@ export default function Home() {
               placeholder="Specify other allergens"
               value={otherAllergen}
               onChange={(e) => setOtherAllergen(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-md mt-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-black"
             />
           )}
         </div>
