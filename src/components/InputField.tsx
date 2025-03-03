@@ -5,6 +5,7 @@ interface InputFieldProps {
   placeholder: string;
   value: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  example: string;
 }
 
 export default function InputField({
@@ -12,6 +13,7 @@ export default function InputField({
   placeholder,
   value,
   onChange,
+  example,
 }: InputFieldProps) {
   return (
     <div className="w-full">
@@ -27,6 +29,9 @@ export default function InputField({
         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-black"
         placeholder={placeholder}
       />
+      <label htmlFor="calories" className="block text-sm font-small font-light text-gray-700">
+        {example}
+      </label>
     </div>
   );
 }

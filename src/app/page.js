@@ -18,6 +18,53 @@ const allergensList = [
   "Gluten-Free",
 ];
 
+async function POST(JSON, link) {
+  try {
+    const response = await fetch(link, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON,
+    });
+
+    const data = await response.json();
+
+    return Response.json(data);
+  } catch (error) {
+    console.error('Error sending request to backend:', error);
+    return Response.json(
+      { error: 'Failed to fetch data from backend' },
+      { status: 500 }
+    );
+  }
+}
+
+function generateMeal(calorieValue, proteinValue, fatsValue, carbsValue, peopleValue, selectedAllergens, otherAllergen, ingredients) {
+  console.log(calorieValue, proteinValue, fatsValue, carbsValue, peopleValue, selectedAllergens, otherAllergen, ingredients)
+  let jsonFile = JSON.stringify({
+    calorieValue: calorieValue,
+    proteinValue: proteinValue,
+    fatsValue: fatsValue,
+    carbsValue: carbsValue,
+    peopleValue: peopleValue,
+    selectedAllergens: selectedAllergens,
+    otherAllergen: otherAllergen,
+    ingredients: ingredients,
+  })
+  POST(jsonFile, 'linkhere')
+}
+
+function analyzeIngredients(selectedFile) {
+  console.log(selectedFile);
+
+  let jsonFile = JSON.stringify({
+    selectedFile: selectedFile, 
+  });
+
+  POST(jsonFile, 'link')
+}
+
 export default function Home() {
   //Form values input
   const [proteinValue, setProteinValue] = useState("");
@@ -79,16 +126,16 @@ export default function Home() {
         <p className="text-black font-medium text-lg">Upload photo of your ingredients and fill out the form. Cookly.io will analyze all of the ingredients and generate you a list of meals based on your macros. Leave fields blank if limit is not required</p>
         
         {/*Calories input*/}
-        <InputField text="Calorie Limit" placeholder="Enter the limit of calories that you want to have" value={calorieValue} onChange={handleCalorieChange} />
+        <InputField text="Calorie Limit" placeholder="Enter the limit of calories that you want to have" value={calorieValue} onChange={handleCalorieChange} example="Avg. 300-700 calories"/>
 
         {/*Calories input*/}
-        <InputField text="Desired Protein Intake" placeholder="Enter how much protein intake you are aiming to have" value={proteinValue} onChange={handleProteinChange} />
+        <InputField text="Desired Protein Intake" placeholder="Enter how much protein intake you are aiming to have" value={proteinValue} onChange={handleProteinChange} example="Avg. 15-30 grams"/>
 
         {/*Fats input*/}
-        <InputField text="Fats Limit" placeholder="Enter limit for fats" value={fatsValue} onChange={handleFatsChange} />
+        <InputField text="Fats Limit" placeholder="Enter limit for fats" value={fatsValue} onChange={handleFatsChange} example="Avg. 15-25 grams"/>
 
         {/*Carbohydrates input*/}
-        <InputField text="Desired Carb Intake" placeholder="Enter limit of carbohydrates" value={carbsValue} onChange={handleCarbsChange} />
+        <InputField text="Desired Carb Intake" placeholder="Enter limit of carbohydrates" value={carbsValue} onChange={handleCarbsChange} example="Avg. 75-110 grams"/>
 
         {/*Number of people input*/}
         <InputField text="Number of people" placeholder="Enter how many people will be having the meal" value={peopleValue} onChange={handlePeopleChange} />
@@ -152,7 +199,7 @@ export default function Home() {
 
         {/*Analyze ingredients button*/}
 
-        <HoverButton text="Analyze Ingredients" onClick={() => alert("test")}/>
+        <HoverButton text="Analyze Ingredients" onClick={() => analyzeIngredients(selectedFile)}/>
 
         {/*Analyzed ingredients input*/}
         <div className="w-full">
@@ -171,7 +218,7 @@ export default function Home() {
         </div>
 
         {/*Generate meal button */}
-        <HoverButton text="Generate Meal" onClick={() => alert("test")}/>
+        <HoverButton text="Generate Meal" onClick={() => generateMeal(calorieValue, proteinValue, fatsValue, carbsValue, peopleValue, selectedAllergens, otherAllergen, ingredientsValue)}/>
 
         <div className="flex gap-4 items-center flex-col sm:flex-row">
           
