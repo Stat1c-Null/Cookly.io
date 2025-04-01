@@ -1,10 +1,12 @@
 {{ define "content" }}
-<h1>Welcome, {{ .Username }}!</h1>
+<h1>Welcome to Cookly!</h1>
 <form method="POST">
     <input type="text" name="username" placeholder="Username" required>
     <input type="password" name="password" placeholder="Password" required>
     <button type="submit">LOGIN</button>
 </form>
-<a href="/register">Register></a> 
-<a href="/logout">Logout</a>
+<ul>
+<li><a href="/register">Register</a></li>
+<li><a href="/logout">Logout</a></li>
+</ul>
 {{ end }}

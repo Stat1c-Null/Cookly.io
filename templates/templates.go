@@ -16,4 +16,5 @@ func Init() {
 	Templates["home.html"] = template.Must(template.ParseFS(templateFiles, "home.html", "base.html"))
 	Templates["login.html"] = template.Must(template.ParseFS(templateFiles, "login.html", "base.html"))
 	Templates["register.html"] = template.Must(template.ParseFS(templateFiles, "register.html", "base.html"))
+	Templates["chef.html"] = template.Must(template.ParseFS(templateFiles, "chef.html", "base.html"))
 }

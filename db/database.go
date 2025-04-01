@@ -5,14 +5,14 @@ import (
 	"fmt"
 	"log"
 
-	_ "github.com/mattn/go-sqlite3"
+	_ "github.com/glebarez/go-sqlite"
 )
 
 var DB *sql.DB
 
 func InitDB() {
 	var err error
-	DB, err = sql.Open("sqlite3", "./cookly.db")
+	DB, err = sql.Open("sqlite", "./cookly.db")
 	if err != nil {
 		log.Fatal(err)
 	}
