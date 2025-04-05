@@ -1,6 +1,12 @@
 Cookly.io
 cookly.db
-
+# Ignore Roboflow dataset
+food-identifier-68zfx-1/
+Food-Identifier-1
+Food-Identifier-1/train
+Food-Identifier-1/train/images
+Food-Identifier-1/test
+Food-Identifier-1/test/images
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
