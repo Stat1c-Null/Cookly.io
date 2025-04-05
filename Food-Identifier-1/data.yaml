@@ -1,0 +1,222 @@
+names:
+- Apple
+- Apple Pie
+- Avocado
+- Banana
+- Basil Rice
+- Beetroot
+- Bell Pepper
+- Bread
+- Broccoli
+- Bualoy
+- Burger
+- Cabbage
+- Cake
+- Carrot
+- Cauliflower
+- Cheese
+- Chicken
+- Chicken Rice
+- Coconut
+- Coke
+- Cookie
+- Corn
+- Croissant
+- Donut
+- Egg
+- Eggplant
+- Fig
+- Fish
+- French Fries
+- Grape
+- Grapefruit
+- Green Curry
+- Grilled Chicken
+- Hamburger
+- Hot Dog
+- Ice Cream
+- Jackfruit
+- Japanese-style-pancake
+- Jok
+- Juice
+- Khao kha moo
+- Laab
+- Laadna
+- Lemon
+- Lettuce
+- Macaron
+- Mango
+- Muffin
+- Mushroom
+- Namprig
+- Omelette
+- Orange
+- Padthai
+- Pancake
+- Papaya Salad
+- Pasta
+- Peach
+- Pear
+- Peas
+- Pineapple
+- Pizza
+- Pomegranate
+- Popcorn
+- Pork Satay
+- Potato
+- Pretzel
+- Pumpkin
+- Radish
+- Rice
+- Salad
+- Salmon
+- Sandwich
+- Shrimp
+- Spinach
+- Steak
+- Strawberry
+- Sukee
+- Sweet Potato
+- Tiramisu
+- Tom Yum
+- Tomato
+- Waffle
+- Watermelon
+- Zucchini
+- alooparatha-chapati
+- baklava
+- bakso
+- bamia
+- beans
+- beef-curry
+- beef-noodle
+- beet
+- besan_cheela
+- bibimbap
+- biriyani
+- brus capusta
+- cabbage
+- carrot_eggs
+- cayliflower
+- celery
+- chicken-n-egg-on-rice
+- chicken-rice
+- chicken_nuggets
+- chinese_cabbage
+- chinese_sausage
+- chip-butty
+- chole
+- corn
+- croquette
+- cucumber
+- curry
+- dal
+- dalmakhani
+- dosa
+- dosa-uttapam
+- eels-on-rice
+- eggplant
+- falafel
+- fasol
+- fried eggplant
+- fried-fish
+- fried-noodle
+- fried-rice
+- fried_chicken
+- fried_dumplings
+- fried_eggs
+- ganmodoki
+- garlic
+- ghanouj
+- gratin
+- grilled-eggplant
+- grilled-pacific-saury-
+- grilled-salmon
+- gulab_jamun
+- halawa
+- hamburger
+- hot pepper
+- idli
+- jiaozi
+- kabsa
+- khichdi
+- khubz
+- kofta
+- kunafah
+- kushari
+- mansaf
+- middle east burger
+- middle east pizza
+- middle east salad
+- middle east soup
+- miso-soup
+- mujaddara
+- mulukhiyah
+- mung_bean_sprouts
+- oden
+- omelet
+- omelette
+- onion
+- palakpaneer
+- papad
+- peas
+- pilaf
+- pita
+- pizza_full
+- pizza_half
+- pizza_slice
+- poha
+- poori
+- pork-cutlet-on-rice
+- potage
+- qatayef
+- raisin-bread
+- rajma
+- ramen-noodle
+- rasgulla
+- rediska
+- redka
+- rendang
+- roll-bread
+- salad
+- salmon-meuniere
+- sambhar
+- sambosak
+- samosa
+- sandwiches
+- sashimi
+- sausage
+- sauteed-spinach
+- sauteed-vegetables
+- sfiha
+- shawarma
+- shish taouk
+- soba-noodle
+- spaghetti
+- squash-patisson
+- stew
+- sukiyaki
+- sushi
+- takoyaki
+- telur_balado
+- tempura-bowl
+- tempura-udon
+- tensin-noodle
+- teriyaki-grilled-fish
+- toast
+- triangle_hash_brown
+- udon-noodle
+- vada
+- vegetable marrow
+- vegetable-tempura
+- water_spinach
+nc: 211
+roboflow:
+  license: CC BY 4.0
+  project: food-identifier-68zfx
+  url: https://universe.roboflow.com/cookly/food-identifier-68zfx/dataset/1
+  version: 1
+  workspace: cookly
+test: ../test/images
+train: ../train/images
+val: ../valid/images
