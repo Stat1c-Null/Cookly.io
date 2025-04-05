@@ -23,9 +23,9 @@ def analyzeImage(image):
     #Establishes path name and saves the image
     pathName = "images/uploadedImage.png"
     img = Image.open(image)
-    img.save("images/uploadedImage.png")
+    img.save("images/uploadedImage.png") 
 
-    with open(pathName, "rb") as imgFile:
+    with open(image, "rb") as imgFile:
         imageData = imgFile.read()
 
 
