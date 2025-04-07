@@ -18,51 +18,42 @@ const allergensList = [
   "Gluten-Free",
 ];
 
-async function POST(JSON, link) {
+async function POST(formData, link) {
   try {
     const response = await fetch(link, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON,
+      body: formData,
     });
 
     const data = await response.json();
 
-    return Response.json(data);
+    return data;
   } catch (error) {
     console.error('Error sending request to backend:', error);
-    return Response.json(
-      { error: 'Failed to fetch data from backend' },
-      { status: 500 }
-    );
+    return { error: 'Failed to fetch data from backend' }
   }
 }
 
 function generateMeal(calorieValue, proteinValue, fatsValue, carbsValue, peopleValue, selectedAllergens, otherAllergen, ingredients) {
   console.log(calorieValue, proteinValue, fatsValue, carbsValue, peopleValue, selectedAllergens, otherAllergen, ingredients)
-  let jsonFile = JSON.stringify({
-    calorieValue: calorieValue,
-    proteinValue: proteinValue,
-    fatsValue: fatsValue,
-    carbsValue: carbsValue,
-    peopleValue: peopleValue,
-    selectedAllergens: selectedAllergens,
-    otherAllergen: otherAllergen,
-    ingredients: ingredients,
-  })
-  POST(jsonFile, 'linkhere')
+
+  const formData = new FormData();
+  formData.append('calorieInput', calorieValue);
+  formData.append('proteinInput', proteinValue);
+  formData.append('fatsInput', fatsValue);
+  formData.append('carbsInput', carbsValue);
+  formData.append('peopleInput', peopleValue);
+  formData.append('selectedAllergens', selectedAllergens);
+  formData.append('other', otherAllergen);
+  formData.append('ingredientsTextBox', ingredients);
+  POST(formData, 'http://127.0.0.1:8000/views/submit/')
 }
 
 function analyzeIngredients(selectedFile) {
   console.log(selectedFile);
-
-  let jsonFile = JSON.stringify({
-    selectedFile: selectedFile, 
-  });
-
-  POST(jsonFile, 'link')
+  const formData = new FormData();
+  formData.append('file', selectedFile)
+  return POST(formData, 'http://127.0.0.1:8000/views/submitImage/')
 }
 
 export default function Home() {
