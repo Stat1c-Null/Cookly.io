@@ -218,7 +218,7 @@ def format_ingredients_output(detected_ingredients, output_format='csv'):
         if name not in unique_ingredients or confidence > unique_ingredients[name]['confidence']:
             unique_ingredients[name] = ingredient
     
-    # Get the list of unique ingredient names
+    #this gets the list of unique ingredient names
     ingredient_names = list(unique_ingredients.keys())
     
     if output_format == 'csv':
@@ -258,24 +258,24 @@ def main():
     """
     Main function to run the ingredient detection pipeline.
     """
-    # Set your Roboflow API key
-    ROBOFLOW_API_KEY = "YOUR_ROBOFLOW_API_KEY"  # Replace with your actual API key
     
-    # Setup the dataset
+    ROBOFLOW_API_KEY = "uHcB191TBmXa2Jpkrq8K" 
+    
+    #Setup the dataset
     dataset_path = setup_roboflow_dataset(ROBOFLOW_API_KEY)
     
-    # Training parameters
-    TRAIN_MODEL = True  # Set to False if you want to load a pre-trained model
-    MODEL_TYPE = "yolov8n"  # Choose from n (nano), s (small), m (medium), l (large), x (xlarge)
+    #Training parameters
+    TRAIN_MODEL = True  
+    MODEL_TYPE = "yolov8s"  #Choose from n (nano), s (small), m (medium), l (large), x (xlarge) I SET TO SMALL FOR NOW WE MIGHT WANNA CHANGE THIS LATER -Chris
     EPOCHS = 50
     BATCH_SIZE = 16
     IMG_SIZE = 640
     
-    # Model path (for loading a pre-trained model)
+    #this is model path (for loading a pre-trained model)
     model_path = "runs/detect/train/weights/best.pt"
     
     if TRAIN_MODEL:
-        # Setup and train the model
+        #first setup and train the model
         model = setup_and_train_model(
             dataset_path=dataset_path,
             model_type=MODEL_TYPE,
@@ -284,30 +284,30 @@ def main():
             img_size=IMG_SIZE
         )
         
-        # Evaluate the model
+        #call evaluate func the model
         metrics = evaluate_model(model, dataset_path)
     else:
-        # Load a pre-trained model
+        #load tha pre-trained model
         model = YOLO(model_path)
     
-    # Test the model on sample images
-    test_image_path = "path/to/your/fridge_image.jpg"  # Replace with your test image path
+    #this will test the model on sample images
+    test_image_path = "C://Users/u/desktop/images/fridge_image.jpg"  #REPLACE WITH YOUR PATH TO THE IMG WHEN RUNNING
     
-    # Run detection
+    #this runs detection
     image, detected_ingredients = detect_ingredients(
         model=model,
         image_path=test_image_path,
         conf_threshold=0.4
     )
     
-    # Format and print results
+    #this formats and prints results
     ingredients_csv = format_ingredients_output(detected_ingredients, 'csv')
     ingredients_array = format_ingredients_output(detected_ingredients, 'array')
     
     print(f"Detected Ingredients (CSV): {ingredients_csv}")
     print(f"Detected Ingredients (Array): {ingredients_array}")
     
-    # Visualize results
+    #then we need to visualize the results
     visualize_detection(
         image=image,
         detected_ingredients=detected_ingredients,
