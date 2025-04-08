@@ -17,6 +17,20 @@
   margin: 0 auto;
 }
 
+/*tTable style*/
+@media (max-width: 1024px) and (min-width: 768px) {
+  .description {
+    width: 70%;
+  }
+}
+
+/*mobile style*/
+@media (max-width: 767px) {
+  .description {
+    width: 85%;
+  }
+}
+
 .space-out {
   margin: 3% 0;
 }
