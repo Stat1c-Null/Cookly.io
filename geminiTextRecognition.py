@@ -22,9 +22,9 @@ def multiturn_generate_content(ingredients: str, calories: str, protein: str, ca
     :param people: Amount of people sent from website
     :return: Gemini's response on what you should make
     """
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "useful-flame-441821-h0-5e6960a95210.json"
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "gen-lang-client-0415079926-5a7bf175d6bc.json"
 
-    vertexai.init(project="useful-flame-441821-h0", location="us-central1")
+    vertexai.init(project="gen-lang-client-0415079926", location="us-central1")
 
     model = GenerativeModel(
         model_name="gemini-1.5-flash-002",
