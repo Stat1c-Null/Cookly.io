@@ -13,7 +13,7 @@ import json
 
 # diagnostic test methods
 def check_roboflow_info(api_key):
-    # Make a GET request to the root endpoint to see workspace info
+    #this will make a GET request to the root endpoint to see workspace info
     url = "https://api.roboflow.com/"
     headers = {"Authorization": f"API_KEY {api_key}"}
     
@@ -23,7 +23,7 @@ def check_roboflow_info(api_key):
         print("Roboflow account information:")
         print(json.dumps(data, indent=4))
         
-        # This will show your actual workspace ID/name and projects
+        #this shows the actual workspace ID/name and projects
         return data
     else:
         print(f"Error: {response.status_code}")
@@ -33,7 +33,7 @@ def check_roboflow_info(api_key):
 
 def setup_roboflow_dataset(api_key="uHcB191TBmXa2Jpkrq8K", cookly="food-becxj", FoodIdentifierv1="final-complete-food", version=1):
     """
-    Download and setup the dataset from Roboflow.
+    this just downloads and sets up the dataset from Roboflow.
     Args:
         api_key (str): Your Roboflow API key
         workspace_name (str): Roboflow workspace name
@@ -64,7 +64,7 @@ def setup_roboflow_dataset(api_key="uHcB191TBmXa2Jpkrq8K", cookly="food-becxj", 
         dataset = project.version(version).download("yolov8")
         print("Dataset downloaded successfully")
         
-        # The download method returns the path to the dataset
+        #this is the download method returns the path to the dataset
         dataset_path = os.path.join(os.getcwd(), project_name + "-" + str(version))
         
         print(f"Dataset downloaded to: {dataset_path}")
@@ -73,7 +73,7 @@ def setup_roboflow_dataset(api_key="uHcB191TBmXa2Jpkrq8K", cookly="food-becxj", 
     except Exception as e:
         print(f"Error accessing project: {e}")
         
-        # List all projects in the workspace to help troubleshooting
+        #we need to list all projects in the workspace to help troubleshooting
         try:
             workspace = rf.workspace(workspace_name)
             projects = workspace.projects()
@@ -101,13 +101,13 @@ def setup_and_train_model(dataset_path, model_type="yolov8n", epochs=50, batch_s
     """
     print(f"Setting up {model_type} model for training")
     
-    # Load data configuration
+    #first we load data configuration
     data_yaml = os.path.join(dataset_path, 'data.yaml')
     
-    # Initialize a pre-trained YOLOv8 model
+    #next need to initialize a pre-trained YOLOv8 model
     model = YOLO(f"{model_type}.pt")
     
-    # Train the model
+    #then we do the train the model part of training the model
     print(f"Starting training for {epochs} epochs")
     model.train(
         data=data_yaml,
@@ -136,10 +136,10 @@ def evaluate_model(model, dataset_path):
     """
     print("Evaluating model performance")
     
-    # Path to the validation set
+    #replace with path to the validation set
     val_path = os.path.join(dataset_path, 'valid')
     
-    # Run validation
+    #then run validation
     metrics = model.val(data=os.path.join(dataset_path, 'data.yaml'))
     
     print(f"Validation mAP@0.5: {metrics.box.map50:.4f}")#this is Mean Average Precision at IoU threshold 0.5
@@ -162,7 +162,7 @@ def detect_ingredients(model, image_path, conf_threshold=0.4, iou_threshold=0.45
     """
     print(f"Detecting ingredients in: {image_path}")
     
-    # Run inference
+    #this runs inference part
     results = model.predict(
         image_path, 
         conf=conf_threshold,
@@ -171,7 +171,7 @@ def detect_ingredients(model, image_path, conf_threshold=0.4, iou_threshold=0.45
         verbose=False
     )[0]
     
-    # Get the detected ingredients
+    #then gets the detected ingredients
     detected_ingredients = []
     for result in results:
         class_id = int(result.boxes.cls.item())
@@ -183,7 +183,7 @@ def detect_ingredients(model, image_path, conf_threshold=0.4, iou_threshold=0.45
             'box': result.boxes.xyxy.cpu().numpy()[0].tolist()  # [x1, y1, x2, y2]
         })
     
-    # Read image and draw boxes
+    #this part will read image and draw boxes
     img = cv2.imread(image_path)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     
@@ -191,10 +191,10 @@ def detect_ingredients(model, image_path, conf_threshold=0.4, iou_threshold=0.45
         box = ingredient['box']
         x1, y1, x2, y2 = int(box[0]), int(box[1]), int(box[2]), int(box[3])
         
-        # Draw bounding box
+        #draws da bounding box
         cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
         
-        # Draw label
+        #draws a label
         label = f"{ingredient['name']}: {ingredient['confidence']:.2f}"
         cv2.putText(img, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
     
@@ -209,7 +209,7 @@ def format_ingredients_output(detected_ingredients, output_format='csv'):
     Returns:
         str or list: Formatted output
     """
-    # Remove duplicates by keeping the highest confidence detection for each ingredient
+    #this will remove duplicates by keeping the highest confidence detection for each ingredient
     unique_ingredients = {}
     for ingredient in detected_ingredients:
         name = ingredient['name']
@@ -261,10 +261,10 @@ def main():
     
     ROBOFLOW_API_KEY = "uHcB191TBmXa2Jpkrq8K" 
     
-    #Setup the dataset
+    #this will setup the dataset
     dataset_path = setup_roboflow_dataset(ROBOFLOW_API_KEY)
     
-    #Training parameters
+    #these are training parameters
     TRAIN_MODEL = True  
     MODEL_TYPE = "yolov8s"  #Choose from n (nano), s (small), m (medium), l (large), x (xlarge) I SET TO SMALL FOR NOW WE MIGHT WANNA CHANGE THIS LATER -Chris
     EPOCHS = 50
