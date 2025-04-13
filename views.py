@@ -10,20 +10,23 @@ views = Blueprint(__name__, "views")
 def home():
     return render_template("index.html")
 
-@views.route("/submitImage", methods=["GET", "POST"])
+@views.route("/submitImage/", methods=["GET", "POST"])
 def submitImage():
+    if request.method == 'OPTIONS':
+        return '', 200  # Respond to preflight
     if 'file' not in request.files:
         return jsonify({"error": "No file part in the request"}), 400
     file = request.files['file']
 
     if file.filename == '':
         return jsonify({"error": "No selected file"}), 400
-
+    print(file)
+    return jsonify({"success": True, "message": "File received"})
     #We call the analyzeImage method in food_recognition.py to get the ingredients response as a json
-    return jsonify(analyzeImage(file))
+    #return jsonify(analyzeImage(file))
 
     #We call the
-@views.route("/submit", methods=["GET", "POST"])
+@views.route("/submit/", methods=["GET", "POST"])
 def submit():
     if request.method == "GET":
         # Handle GET request logic (if any)
@@ -35,25 +38,23 @@ def submit():
     fat_limit = request.form.get('fatsInput')
     number_of_people = request.form.get('peopleInput')
     ingredientsTextBox = request.form.get('ingredientsTextBox')
-    allergens = []
-    for allergen in ['Dairy', 'Eggs', 'Fish', 'Shellfish', 'Peanuts', 'Soy', 'Wheat', 'Tree Nuts', 'Sesame','Gluten-Free']:
-        if request.form.get(allergen):
-            allergens.append(allergen)
+    allergens = request.form.get('selectedAllergens')
     if request.form.get('other'):
-        allergens.append(request.form.get('otherText'))
+        allergens += ", " + request.form.get("other")
 
 
 
     print(f"Calories: {calorie_limit}, Protein: {protein_intake}, Carbs: {carb_limit}, Fats: {fat_limit}, People: {number_of_people}")
     print(f"Allergens: {allergens}")
 
+    return jsonify({"success": True, "message": "File received"})
     ##if ingredients_image:
     #    ingredients_image.save(f'images/uploadedImage.png')
     #    print(f"Uploaded Image: {ingredients_image.filename}")
     #else:
     #    print("Couldn't upload")
 
-    return multiturn_generate_content(ingredientsTextBox,calorie_limit, protein_intake, carb_limit, fat_limit, number_of_people, allergens)
+    #return multiturn_generate_content(ingredientsTextBox,calorie_limit, protein_intake, carb_limit, fat_limit, number_of_people, allergens)
 
 @views.route("/fetch_data", methods= ["GET"])
 def fetch_data():
