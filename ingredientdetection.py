@@ -149,7 +149,7 @@ def evaluate_model(model, dataset_path):
 
 # ----- 4. Inference and Visualization -----
 
-def detect_ingredients(model, image_path, conf_threshold=0.4, iou_threshold=0.45):#iou is threshold for non maximum suppression
+def detect_ingredients(model, image_path, conf_threshold=0.0.5, iou_threshold=0.075):#iou is threshold for non maximum suppression
     """
     Detect ingredients in an image.
     Args:
@@ -297,7 +297,7 @@ def main():
     image, detected_ingredients = detect_ingredients(
         model=model,
         image_path=test_image_path,
-        conf_threshold=0.4
+        conf_threshold=0.05
     )
     
     #this formats and prints results
