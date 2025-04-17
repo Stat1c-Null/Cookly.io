@@ -18,7 +18,7 @@ const allergensList = [
   "Gluten-Free",
 ];
 
-async function POST(formData, link) {
+async function POST(formData, link, image) {
   try {
     const response = await fetch(link, {
       method: 'POST',
@@ -26,6 +26,11 @@ async function POST(formData, link) {
     });
 
     const data = await response.json();
+
+    if(image) {
+      const ingredientsTextBox = document.getElementById("ingredients");
+      ingredientsTextBox.value = data["data"];
+    }
 
     return data;
   } catch (error) {
@@ -46,14 +51,14 @@ function generateMeal(calorieValue, proteinValue, fatsValue, carbsValue, peopleV
   formData.append('selectedAllergens', selectedAllergens);
   formData.append('other', otherAllergen);
   formData.append('ingredientsTextBox', ingredients);
-  POST(formData, 'http://127.0.0.1:8000/views/submit/')
+  POST(formData, 'http://127.0.0.1:8000/views/submit/', false)
 }
 
 function analyzeIngredients(selectedFile) {
   console.log(selectedFile);
   const formData = new FormData();
   formData.append('file', selectedFile)
-  return POST(formData, 'http://127.0.0.1:8000/views/submitImage/')
+  POST(formData, 'http://127.0.0.1:8000/views/submitImage/', true)
 }
 
 export default function Home() {

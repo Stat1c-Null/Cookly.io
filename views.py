@@ -21,9 +21,9 @@ def submitImage():
     if file.filename == '':
         return jsonify({"error": "No selected file"}), 400
     print(file)
-    return jsonify({"success": True, "message": "File received"})
+    #return jsonify({"success": True, "message": "File received"})
     #We call the analyzeImage method in food_recognition.py to get the ingredients response as a json
-    #return jsonify(analyzeImage(file))
+    return jsonify(analyzeImage(file))
 
     #We call the
 @views.route("/submit/", methods=["GET", "POST"])
@@ -47,14 +47,14 @@ def submit():
     print(f"Calories: {calorie_limit}, Protein: {protein_intake}, Carbs: {carb_limit}, Fats: {fat_limit}, People: {number_of_people}")
     print(f"Allergens: {allergens}")
 
-    return jsonify({"success": True, "message": "File received"})
+    #return jsonify({"success": True, "message": "File received"})
     ##if ingredients_image:
     #    ingredients_image.save(f'images/uploadedImage.png')
     #    print(f"Uploaded Image: {ingredients_image.filename}")
     #else:
     #    print("Couldn't upload")
 
-    #return multiturn_generate_content(ingredientsTextBox,calorie_limit, protein_intake, carb_limit, fat_limit, number_of_people, allergens)
+    return multiturn_generate_content(ingredientsTextBox,calorie_limit, protein_intake, carb_limit, fat_limit, number_of_people, allergens)
 
 @views.route("/fetch_data", methods= ["GET"])
 def fetch_data():

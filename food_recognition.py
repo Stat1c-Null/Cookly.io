@@ -59,7 +59,7 @@ def analyzeImage(image):
         print("Unable to remove image")
 
 
-    #print("Full response: " + fullResponse)
+    print("Full response: " + fullResponse)
     #After generating the ingredients it sees we now send back the data as a json
     return {"data": fullResponse}
 
