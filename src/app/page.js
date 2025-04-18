@@ -24,14 +24,19 @@ async function POST(formData, link, image) {
       method: 'POST',
       body: formData,
     });
-
-    const data = await response.json();
-
+    console.log("I work")
+    
+    let data = null;
     if(image) {
+      data = await response.json();
       const ingredientsTextBox = document.getElementById("ingredients");
       ingredientsTextBox.value = data["data"];
+    } else {
+      data = await response.text();
+      processingIngridients();
     }
-
+    console.log(data);
+    console.log("printed out data")
     return data;
   } catch (error) {
     console.error('Error sending request to backend:', error);
@@ -59,6 +64,88 @@ function analyzeIngredients(selectedFile) {
   const formData = new FormData();
   formData.append('file', selectedFile)
   POST(formData, 'http://127.0.0.1:8000/views/submitImage/', true)
+}
+
+async function processingIngridients() {
+  //Wait for data to reach Gemini
+  await fetch("http://127.0.0.1:8000/views/submit/");
+
+  checkRecipe();
+}
+
+async function checkRecipe() {
+  //Wait for Gemini to return data back
+  const response = await fetch("http://127.0.0.1:8000/views/fetch_data/");
+  console.log(response);
+  const result = await response.json();
+
+  if(result.data) {
+    displayRecipe(result.data);
+  } else {
+    setTimeout(checkRecipe, 1000);
+
+  }
+}
+
+function displayRecipe(recipe) {
+  localStorage.clear()
+  sessionStorage.clear()
+
+  document.getElementById("results").style.display = "block";
+    // Ensure recipe is a string
+
+  console.log(recipe)
+
+  //Display data on the screen
+  const mealName = document.getElementById("meal-name");
+  //const ingredients = document.getElementById("meal-name");
+  const instructions = document.getElementById("instructions");
+  const notes = document.getElementById("notes");
+  let keywords = ["Meal Name", "Ingredients", "Instructions", "Notes"];
+  let extractedText = {};
+
+  //Loop through each keyword and extract data between them
+  keywords.forEach((word, index) => {
+    if (index < keywords.length - 1) {
+      // For all keywords except the last one
+      let regex = new RegExp(`\\*\\*${word}:\\*\\*(.*?)\\*\\*${keywords[index + 1]}`, "gs");
+      let match = regex.exec(recipe);
+      if (match) {
+        extractedText[word] = match[1].trim();
+      }
+    } else {
+      // For the last keyword, capture everything after it
+      let regex = new RegExp(`\\*\\*${word}:\\*\\*(.*)`, "gs");
+      let match = regex.exec(recipe);
+      if (match) {
+        extractedText[word] = match[1].trim();
+      }
+    }
+  });
+  
+  Object.keys(extractedText).forEach(key => {
+    console.log(`\n${key}:\n${extractedText[key]}`);
+  });
+
+  //Display data
+  mealName.innerText = extractedText["Meal Name"];
+
+  //Loop through every ingridient and make <li> for it
+  const ingredientsText = extractedText["Ingredients"];
+  const ingredientsArray = ingredientsText
+            .trim()                     
+            .split("\n")                
+            .map(line => line.trim())   
+            .filter(line => line.startsWith("*")) 
+
+  const listItemsHTML = ingredientsArray.map(ingredient => `<li class="list-group-item">${ingredient.slice(1).trim()}</li>`).join("");
+
+  document.getElementById("ingredientsList").innerHTML = listItemsHTML;
+
+  instructions.innerText = extractedText["Instructions"];
+  notes.innerText = extractedText["Notes"];
+
+  //mealLoader.style.display = "none";
 }
 
 export default function Home() {
@@ -216,8 +303,33 @@ export default function Home() {
         {/*Generate meal button */}
         <HoverButton text="Generate Meal" onClick={() => generateMeal(calorieValue, proteinValue, fatsValue, carbsValue, peopleValue, selectedAllergens, otherAllergen, ingredientsValue)}/>
 
+
+        {/*Results */}
         <div className="flex gap-4 items-center flex-col sm:flex-row">
-          
+        <div id="results">
+          <h5 id="meal-name"></h5>
+          {/*Ingridients*/}
+          <div className="card">
+            <div className="card-header">Ingredients</div>
+            <ul className="list-group list-group-flush" id="ingredientsList">
+
+            </ul>
+          </div>
+          {/*Instructions*/}
+          <div className="card">
+            <div className="card-body">
+              <h5 className="card-title">Instructions</h5>
+              <p className="card-text" id="instructions"></p>
+            </div>
+          </div>
+          {/*Notes*/}
+          <div className="card">
+            <div className="card-body">
+              <h5 className="card-title">Notes</h5>
+              <p className="card-text" id="notes"></p>
+            </div>
+          </div>
+        </div>
         </div>
 
       </main>

@@ -44,11 +44,11 @@ def multiturn_generate_content(ingredients: str, calories: str, protein: str, ca
     #base formatting
     assumed_ingredients = "salt, pepper, oil"
     formattedNutrients = format(calories, protein, carbs, fat, people)
-    formmatedAllergens = formatAllergens(allergens)
+    formmatedAllergens = allergens
 
 
     #formatting questions to be sent to gemini
-    full_prompt = f"What can I cook with: {user_prompt}, {assumed_ingredients}{formmatedAllergens}.Break your response into the following parts:Meal Name,Ingridients,Instructions,Notes.For each section write the name of it at the top"
+    full_prompt = f"What can I cook with: {user_prompt}, {assumed_ingredients}, my allergens are {formmatedAllergens}.Break your response into the following parts:Meal Name,Ingridients,Instructions,Notes.For each section write the name of it at the top"
     start_format = "\nGemini says you should try:\n"
     text = ""
 
@@ -66,6 +66,8 @@ def multiturn_generate_content(ingredients: str, calories: str, protein: str, ca
 
 
 def get_recipe():
+    print("Sending recipe")
+    print(recipe_store.get("data"))
     return recipe_store.get("data")
 
 

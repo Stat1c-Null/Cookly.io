@@ -37,10 +37,13 @@ def submit():
     carb_limit = request.form.get('carbsInput')
     fat_limit = request.form.get('fatsInput')
     number_of_people = request.form.get('peopleInput')
-    ingredientsTextBox = request.form.get('ingredientsTextBox')
+    ingredientsTextBox = request.form.get('ingredients')
     allergens = request.form.get('selectedAllergens')
     if request.form.get('other'):
         allergens += ", " + request.form.get("other")
+
+    if "null" in allergens:
+        allergens = allergens[0:-6]
 
 
 
@@ -56,7 +59,7 @@ def submit():
 
     return multiturn_generate_content(ingredientsTextBox,calorie_limit, protein_intake, carb_limit, fat_limit, number_of_people, allergens)
 
-@views.route("/fetch_data", methods= ["GET"])
+@views.route("/fetch_data/", methods= ["GET"])
 def fetch_data():
     #Fetch recipe from gemini
     recipe = get_recipe()
