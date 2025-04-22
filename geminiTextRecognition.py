@@ -35,7 +35,8 @@ def multiturn_generate_content(ingredients: str, calories: str, protein: str, ca
 
     # Enable raw responses (use with caution in production)
     chat = model.start_chat(response_validation=False)
-
+    print("PRINTING INGREDIENTS")
+    print(ingredients)
     if ingredients == '':
         user_prompt = input("What ingredients do you have today (or type 'exit' to quit)?: ")
     else:

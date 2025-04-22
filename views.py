@@ -37,7 +37,7 @@ def submit():
     carb_limit = request.form.get('carbsInput')
     fat_limit = request.form.get('fatsInput')
     number_of_people = request.form.get('peopleInput')
-    ingredientsTextBox = request.form.get('ingredients')
+    ingredientsTextBox = request.form.get('ingredientsTextBox')
     allergens = request.form.get('selectedAllergens')
     if request.form.get('other'):
         allergens += ", " + request.form.get("other")
@@ -45,8 +45,8 @@ def submit():
     if "null" in allergens:
         allergens = allergens[0:-6]
 
-
-
+    print(number_of_people)
+    print(ingredientsTextBox)
     print(f"Calories: {calorie_limit}, Protein: {protein_intake}, Carbs: {carb_limit}, Fats: {fat_limit}, People: {number_of_people}")
     print(f"Allergens: {allergens}")
 
