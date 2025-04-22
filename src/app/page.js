@@ -19,6 +19,7 @@ const allergensList = [
 ];
 
 async function POST(formData, link, image, updateIngredientsCallback) {
+  
   try {
     const response = await fetch(link, {
       method: 'POST',
@@ -31,12 +32,17 @@ async function POST(formData, link, image, updateIngredientsCallback) {
       if(updateIngredientsCallback && data["data"]) {
         updateIngredientsCallback(data["data"])
       }
+
+      let loader = document.getElementById("image-loader")
+      loader.style.display = "none"
     } else {
       data = await response.text();
       processingIngridients();
+      
     }
-    console.log(data);
     console.log("printed out data")
+    console.log(data);
+
     return data;
   } catch (error) {
     console.error('Error sending request to backend:', error);
@@ -47,7 +53,7 @@ async function POST(formData, link, image, updateIngredientsCallback) {
 function generateMeal(calorieValue, proteinValue, fatsValue, carbsValue, peopleValue, selectedAllergens, otherAllergen, ingredients) {
   let loader = document.getElementById("recipe-loader")
   loader.style.display = "block"
-
+  
   const formData = new FormData();
   formData.append('calorieInput', calorieValue);
   formData.append('proteinInput', proteinValue);
@@ -84,73 +90,77 @@ async function checkRecipe() {
   console.log(response);
   const result = await response.json();
 
-  if(result.data) {
-    displayRecipe(result.data);
+  if(result.title && result.ingredients && result.directions && result.link) {
+    displayRecipe(result.title, result.ingredients, result.directions, result.link);
   } else {
     setTimeout(checkRecipe, 1000);
 
   }
 }
 
-function displayRecipe(recipe) {
+function displayRecipe(title, recipe, directions, link) {
   localStorage.clear()
   sessionStorage.clear()
 
   document.getElementById("results").style.display = "block";
-    // Ensure recipe is a string
-
+  console.log(title)
   console.log(recipe)
+  console.log(directions)
+  console.log(link)
 
-  //Display data on the screen
   const mealName = document.getElementById("meal-name");
-  //const ingredients = document.getElementById("meal-name");
   const instructions = document.getElementById("instructions");
   const notes = document.getElementById("notes");
-  let keywords = ["Meal Name", "Ingredients", "Instructions", "Notes"];
-  let extractedText = {};
+  const ingredientsList = document.getElementById("ingredientsList");
+  const results = document.getElementById("results")
+  results.style.display = "flex"
 
-  //Loop through each keyword and extract data between them
-  keywords.forEach((word, index) => {
-    if (index < keywords.length - 1) {
-      // For all keywords except the last one
-      let regex = new RegExp(`\\*\\*${word}:\\*\\*(.*?)\\*\\*${keywords[index + 1]}`, "gs");
-      let match = regex.exec(recipe);
-      if (match) {
-        extractedText[word] = match[1].trim();
-      }
-    } else {
-      // For the last keyword, capture everything after it
-      let regex = new RegExp(`\\*\\*${word}:\\*\\*(.*)`, "gs");
-      let match = regex.exec(recipe);
-      if (match) {
-        extractedText[word] = match[1].trim();
-      }
-    }
-  });
-  
-  Object.keys(extractedText).forEach(key => {
-    console.log(`\n${key}:\n${extractedText[key]}`);
-  });
+  //Place title
+  mealName.innerText = title
 
-  //Display data
-  mealName.innerText = extractedText["Meal Name"];
+  //Place ingredients
+  const ingredientsText = recipe[0]
 
-  //Loop through every ingridient and make <li> for it
-  const ingredientsText = extractedText["Ingredients"];
-  const ingredientsArray = ingredientsText
-            .trim()                     
-            .split("\n")                
-            .map(line => line.trim())   
-            .filter(line => line.startsWith("*")) 
+  const ingredientLines = ingredientsText.split('\n')
 
-  const listItemsHTML = ingredientsArray.map(ingredient => `<li class="list-group-item">${ingredient.slice(1).trim()}</li>`).join("");
+  // Clear previous ingredients
+  ingredientsList.innerHTML = '';
 
-  document.getElementById("ingredientsList").innerHTML = listItemsHTML;
+  ingredientLines.forEach(line => {
+    const li = document.createElement('li');
+    li.className = "px-6 py-3 text-gray-700";
+    li.textContent = line;
+    ingredientsList.appendChild(li);
+  })
 
-  instructions.innerText = extractedText["Instructions"];
-  notes.innerText = extractedText["Notes"];
+  const instructionsList = directions[0]
 
-  //mealLoader.style.display = "none";
+  const instructionsLines = instructionsList.split('\n')
+
+  instructions.innerHTML = ''
+
+  let counter = 1;
+
+  instructionsLines.forEach(line => {
+    const p = document.createElement('p');
+    p.textContent = counter + ". " + line
+    instructions.appendChild(p)
+    counter++;
+  })
+
+  notes.innerHTML = ""
+
+  const par = document.createElement('p')
+  par.textContent = "Link to the website with a recipe"
+
+  const websiteLink = document.createElement('a')
+  websiteLink.href = "https://" + link
+  websiteLink.textContent = "Visit website by clicking here"
+  notes.appendChild(par)
+  notes.appendChild(websiteLink)
+
+  let loader = document.getElementById("recipe-loader")
+  loader.style.display = "none"
 }
 
 export default function Home() {
@@ -209,8 +219,6 @@ export default function Home() {
   return (
 
     <div className="bg-white grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      
-      
 
       <main className="flex flex-col gap-10 row-start-2 items-center max-w-4xl">
         
@@ -224,7 +232,7 @@ export default function Home() {
           />
         </div>
 
-        <h1 className="text-blue-500 text-3xl font-bold" style={{ textAlign: 'center'}}>Diet Details Form</h1>
+        <h1 className="text-blue-500 text-3xl font-bold">Diet Details Form</h1>
         <p className="text-black font-medium text-lg text-center">Upload photo of your ingredients and fill out the form. Cookly.io will analyze all of the ingredients and generate you a list of meals based on your macros. Leave fields blank if limit is not required</p>
         
         {/*Calories input*/}
@@ -333,7 +341,7 @@ export default function Home() {
         </div>
 
         {/*Results */}
-        <div className="flex justify-center w-full mt-8">
+        <div className="flex justify-center w-full mt-8" id="results" style={{display: 'none'}}>
           <div id="results" className="w-full max-w-2xl bg-white rounded-lg shadow-sm">
             {/* Title */}
             <h5 id="meal-name" className="text-2xl font-bold text-center py-4 text-blue-500">
@@ -358,7 +366,7 @@ export default function Home() {
                 Instructions
               </div>
               <div className="px-6 py-4">
-                <ol className="list-decimal list-inside space-y-2 text-gray-700 rounded-md">
+                <ol className="list-decimal list-inside space-y-2 text-gray-700 rounded-md" id="instructions">
                   <li>Combine olive oil, salt, and pepper in a small bowl.</li>
                   <li>Whisk to combine.</li>
                 </ol>
