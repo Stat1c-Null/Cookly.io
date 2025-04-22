@@ -4,6 +4,7 @@ from food_recognition import analyzeImage
 #from geminiTextRecognition import get_recipe
 from generateRecipes import get_recipe
 from generateRecipes import search_recipes
+from pureIngredientDetection import detect_ingredients
 
 views = Blueprint(__name__, "views")
 
@@ -24,7 +25,8 @@ def submitImage():
         return jsonify({"error": "No selected file"}), 400
     print(file)
     #We call the analyzeImage method in food_recognition.py to get the ingredients response as a json
-    return jsonify(analyzeImage(file))
+    return jsonify(detect_ingredients(file))
+    #return jsonify(analyzeImage(file))
 
     #We call the
 @views.route("/submit/", methods=["GET", "POST"])

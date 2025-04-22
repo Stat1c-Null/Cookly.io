@@ -9,6 +9,9 @@ node_modules
 food-identifier-68zfx-1
 .next
 
+RecipeNLG_enriched.csv
+SBertModel.pt
+
 # C extensions
 *.so
 useful-flame-441821-h0-5e6960a95210.json

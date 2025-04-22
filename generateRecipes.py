@@ -97,7 +97,7 @@ def search_recipes(user_input, top_k=5, length_weight=0.12, ingredient_weight=0.
         recipe_store["directions"] = {formatDirections(directions)}
         recipe_store["link"] = row['link']
 
-    data = {"success": "this shit worked"}
+    data = {"success": "it just works"}
     return data
 
 #Helper function to see how some of the recipes suck and have bad directions
