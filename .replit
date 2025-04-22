@@ -40,3 +40,6 @@ mode = "sequential"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "python app.py"
+
+[objectStorage]
+defaultBucketID = "replit-objstore-9fd63242-059a-49bc-b3e1-19cd588bfbf0"

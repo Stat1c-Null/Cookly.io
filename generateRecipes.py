@@ -7,6 +7,8 @@ import torch
 import ast
 import re
 import json
+import os
+from replit import ObjectStorage
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 #print(torch.cuda.is_available())
@@ -16,7 +18,6 @@ csv_path = "RecipeNLG_enriched.csv"
 
 model = SentenceTransformer('msmarco-MiniLM-L-12-v3', device=device)
 #Will need to change this to the actual place that the model is saved to
-from replit import ObjectStorage
 
 storage = ObjectStorage()
 if not os.path.exists("SBertModel.pt"):
