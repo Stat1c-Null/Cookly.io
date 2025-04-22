@@ -8,7 +8,6 @@ import ast
 import re
 import json
 import os
-from replit import ObjectStorage
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 #print(torch.cuda.is_available())
@@ -18,11 +17,6 @@ csv_path = "RecipeNLG_enriched.csv"
 
 model = SentenceTransformer('msmarco-MiniLM-L-12-v3', device=device)
 #Will need to change this to the actual place that the model is saved to
-
-storage = ObjectStorage()
-if not os.path.exists("SBertModel.pt"):
-    # Download from Object Storage to local if not exists
-    storage.get("SBertModel.pt", "SBertModel.pt")
 recipe_embeddings = torch.load("SBertModel.pt", map_location=device)
 df = pd.read_csv(csv_path)
 
@@ -100,8 +94,8 @@ def search_recipes(user_input, top_k=5, length_weight=0.12, ingredient_weight=0.
         print(f"🧂 Ingredients: {ingredients}")
         print(f"📝 Directions: {directions}\n")
         recipe_store["title"] = row['title']
-        recipe_store["ingredients"] = {formatDirections(ingredients)}
-        recipe_store["directions"] = {formatDirections(directions)}
+        recipe_store["ingredients"] = row['ingredients']
+        recipe_store["directions"] = row['directions']
         recipe_store["link"] = row['link']
 
     data = {"success": "it just works"}
@@ -116,8 +110,8 @@ def findRecipeByIndex(index):
     print(f"🧂 Ingredients: {formatDirections(ingredients)}")
     print(f"📝 Directions: {formatDirections(directions)}\n")
     recipe_store["title"] = title
-    recipe_store["ingredients"] = {formatDirections(ingredients)}
-    recipe_store["directions"] = {formatDirections(directions)}
+    recipe_store["ingredients"] = ingredients
+    recipe_store["directions"] = directions
     recipe_store["link"] = df.iloc[index]['link']
 
 #This is old code to format the directions and I can still use it but I haven't used it in the main search_recipes yet

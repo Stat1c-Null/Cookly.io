@@ -224,7 +224,7 @@ export default function Home() {
         
         <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
           <Image
-            src="/logo.png" // Route of the image file
+            src="/bluelogo.png" // Route of the image file
             alt="Logo"
             width={150}
             height={100}

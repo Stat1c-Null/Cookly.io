@@ -1,4 +1,4 @@
-modules = ["nodejs-20", "python-3.12", "web"]
+modules = ["nodejs-20", "python-3.12", "web", "postgresql-16"]
 run = "npm run dev"
 
 [nix]
@@ -15,6 +15,10 @@ externalPort = 80
 [[ports]]
 localPort = 3001
 externalPort = 3001
+
+[[ports]]
+localPort = 5000
+externalPort = 5000
 
 [workflows]
 runButton = "Flask Server"
@@ -40,6 +44,24 @@ mode = "sequential"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "python app.py"
+
+[[workflows.workflow]]
+name = "Download Files"
+author = 2923642
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python gdriveDownload.py"
+
+[[workflows.workflow]]
+name = "Run Test"
+author = 2923642
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python test.py"
 
 [objectStorage]
 defaultBucketID = "replit-objstore-9fd63242-059a-49bc-b3e1-19cd588bfbf0"
