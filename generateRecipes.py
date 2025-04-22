@@ -16,6 +16,12 @@ csv_path = "RecipeNLG_enriched.csv"
 
 model = SentenceTransformer('msmarco-MiniLM-L-12-v3', device=device)
 #Will need to change this to the actual place that the model is saved to
+from replit import ObjectStorage
+
+storage = ObjectStorage()
+if not os.path.exists("SBertModel.pt"):
+    # Download from Object Storage to local if not exists
+    storage.get("SBertModel.pt", "SBertModel.pt")
 recipe_embeddings = torch.load("SBertModel.pt", map_location=device)
 df = pd.read_csv(csv_path)
 
