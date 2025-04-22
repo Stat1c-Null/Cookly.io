@@ -12,8 +12,12 @@ run = ["sh", "-c", "npm run dev"]
 localPort = 3000
 externalPort = 80
 
+[[ports]]
+localPort = 3001
+externalPort = 3001
+
 [workflows]
-runButton = "Dev"
+runButton = "Flask Server"
 
 [[workflows.workflow]]
 name = "Dev"
@@ -27,3 +31,12 @@ args = "python app.py"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "npm run dev"
+
+[[workflows.workflow]]
+name = "Flask Server"
+author = 2923642
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python app.py"
