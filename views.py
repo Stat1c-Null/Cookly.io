@@ -1,17 +1,13 @@
 from flask import Blueprint, render_template, request, jsonify
-from food_recognition import analyzeImage
-#from geminiTextRecognition import multiturn_generate_content
-#from geminiTextRecognition import get_recipe
 from generateRecipes import get_recipe
 from generateRecipes import search_recipes
 from pureIngredientDetection import detect_ingredients
 
 views = Blueprint(__name__, "views")
 
-
-@views.route("/")
-def home():
-    return render_template("index.html")
+#@views.route("/")
+#def home():
+#    return render_template("index.html")
 
 @views.route("/submitImage/", methods=["GET", "POST"])
 def submitImage():
@@ -26,9 +22,7 @@ def submitImage():
     print(file)
     #We call the analyzeImage method in food_recognition.py to get the ingredients response as a json
     return jsonify(detect_ingredients(file))
-    #return jsonify(analyzeImage(file))
 
-    #We call the
 @views.route("/submit/", methods=["GET", "POST"])
 def submit():
     if request.method == "GET":
@@ -53,7 +47,6 @@ def submit():
         print(f"Calories: {calorie_limit}, Protein: {protein_intake}, Carbs: {carb_limit}, Fats: {fat_limit}, People: {number_of_people}")
         print(f"Allergens: {allergens}")
 
-        #return multiturn_generate_content(ingredientsTextBox,calorie_limit, protein_intake, carb_limit, fat_limit, number_of_people, allergens)
         return search_recipes(ingredientsTextBox, 1)
 
 @views.route("/fetch_data/", methods= ["GET"])
