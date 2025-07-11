@@ -31,3 +31,5 @@ Cookly.io is an AI assistant designed to suggest meals based on photos of the us
 
 This project was created as part of the **AI Innovation Hackathon 2024**. Our goal is to push the boundaries of AI to enhance daily life while fostering sustainability.
 
+Our Third Place in C-Day 2025 KSU
+https://digitalcommons.kennesaw.edu/cday/Spring_2025/Undergraduate_Project/19/ 
